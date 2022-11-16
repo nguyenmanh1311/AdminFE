@@ -36,8 +36,8 @@ const Sidebar = () => {
       <div className="top">
         <Link to="/" style={{ textDecoration: "none" }}>
           <span className="logo">
-            <img src={logo} style={{ width: "60px", height: "50px" }} alt="" />
-            Dashboard
+            <img src={logo} style={{ width: "90px", height: "70px" }} alt="" />
+            <span className="title">Dashboard</span>
           </span>
         </Link>
       </div>
