@@ -11,7 +11,7 @@ const UserDatatable = ({ rows, title, userColumns }) => {
   const actionColumn = [
     {
       field: "action",
-      headerName: "Action",
+      headerName: "Thực hiện",
       width: 200,
       renderCell: (params) => {
         return (
@@ -26,7 +26,7 @@ const UserDatatable = ({ rows, title, userColumns }) => {
               className="deleteButton"
               onClick={() => handleDelete(params.row.id)}
             >
-              Delete
+              Xóa
             </div>
           </div>
         );

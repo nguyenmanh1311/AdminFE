@@ -3,7 +3,7 @@ export const productColumns = [
   {
     field: "img",
     headerName: "Hình ảnh",
-    width: 230,
+    width: 100,
     renderCell: (params) => {
       return (
         <div className="cellWithImg">
@@ -15,23 +15,28 @@ export const productColumns = [
   },
   {
     field: "title",
-    headerName: "Title",
+    headerName: "Tên sản phẩm",
     width: 230,
   },
   {
+    field: "brand",
+    headerName: "Thương hiệu",
+    width: 120,
+  },
+  {
     field: "price",
-    headerName: "Giá",
+    headerName: "Giá bán",
     width: 100,
   },
   {
-    field: "url",
-    headerName: "Url",
-    width: 300,
+    field: "import-price",
+    headerName: "Giá nhập",
+    width: 100,
   },
   {
-    field: "slug",
-    headerName: "Slug",
-    width: 150,
+    field: "description",
+    headerName: "Mô tả",
+    width: 200,
   },
 ];
 export const commentColumns = [
@@ -89,11 +94,11 @@ export const commentColumns = [
 ];
 
 export const userColumns = [
-  { field: "id", headerName: "ID", width: 150 },
+  { field: "id", headerName: "ID", width: 100 },
   {
     field: "avatar",
-    headerName: "Avatar",
-    width: 230,
+    headerName: "Hình ảnh",
+    width: 100,
     renderCell: (params) => {
       return (
         <div className="cellWithImg">
@@ -104,7 +109,7 @@ export const userColumns = [
   },
   {
     field: "username",
-    headerName: "Name",
+    headerName: "Họ tên khách hàng",
     width: 230,
     renderCell: (params) => {
       return <div className="cellWithImg">{params.row.username}</div>;
@@ -112,12 +117,32 @@ export const userColumns = [
   },
   {
     field: "sex",
-    headerName: "Gender",
+    headerName: "Giới tính",
+    width: 80,
+  },
+  {
+    field: "birthday",
+    headerName: "Ngày sinh",
+    width: 100,
+  },
+  {
+    field: "phone",
+    headerName: "Số điện thoại",
+    width: 100,
+  },
+  {
+    field: "email",
+    headerName: "Email",
+    width: 100,
+  },
+  {
+    field: "status",
+    headerName: "Trạng thái",
     width: 100,
   },
   {
     field: "address",
-    headerName: "Address",
+    headerName: "Địa chỉ",
     width: 500,
     valueGetter: (params) => {
       let result = [];
