@@ -1,0 +1,212 @@
+@import url(//fonts.googleapis.com/css?family=Lato:300:400);
+
+.hero {
+  height: 100%;
+  width: 100%;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
+    url(../../assets/login/gradienta.jpg);
+  background-position: center;
+  background-size: cover;
+  position: absolute;
+
+  .form-box {
+    width: 380px;
+    height: 450px;
+    position: relative;
+    margin: 5% auto;
+    background: #fff;
+    padding: 5px;
+    overflow: hidden;
+    border-radius: 50px;
+  }
+}
+
+.button-box {
+  width: 150px;
+  margin: 10px auto;
+  position: relative;
+  box-shadow: 0 0 20px 9px #ff61241f;
+  border-radius: 30px;
+}
+
+.toogle-btn {
+  padding: 10px 30px;
+  cursor: pointer;
+  background: transparent;
+  border: 0;
+  outline: none;
+  position: relative;
+}
+
+#btn {
+  top: 0;
+  left: 0;
+  position: absolute;
+  width: inherit;
+  height: 100%;
+  background: linear-gradient(to right, #ff105f, #ffad06);
+  border-radius: 30px;
+  transition: 0.5s;
+}
+
+.social-icons {
+  display: flex;
+  justify-content: center;
+  img {
+    width: 150px;
+  }
+}
+.input-group-login {
+  top: 150px;
+  position: absolute;
+  width: 280px;
+  transition: 0.5s;
+  font-size: 12px;
+  input:focus {
+    box-shadow: none;
+  }
+  .input-field {
+    font-size: 12px;
+    width: 100%;
+    padding: 10px 0;
+    margin: 5px 0;
+    border-left: 0;
+    border-right: 0;
+    border-top: 0;
+    border-bottom: 1px solid #999;
+    outline: none !important;
+    background: transparent;
+  }
+
+  .submit-btn {
+    display: flex;
+    justify-content: center;
+    width: 85%;
+    padding: 10px 30px;
+    cursor: pointer;
+    margin: auto;
+    background: linear-gradient(to right, #ff105f, #ffad06);
+    border: 0;
+    outline: none;
+    border-radius: 30px;
+  }
+  .check-box {
+    outline: 0;
+    border-radius: 5px;
+    margin: 30px 10px 30px 0;
+  }
+}
+
+#input-search {
+  padding-left: 10px;
+  border-radius: 0;
+  height: 28.4px;
+  border: none;
+  border-radius: 5px 0 0 5px;
+  outline: none;
+}
+
+#btn-search {
+  background-color: #6c757d;
+  height: 28.4px;
+  border: none;
+  width: 40.4px;
+  display: flex;
+  align-items: center;
+  border-radius: 0 5px 5px 0;
+  outline: none;
+}
+
+#btn-search:hover {
+  background-color: rgb(159, 159, 159);
+  color: #000;
+}
+
+.input-form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+}
+
+.input-group span {
+  color: #777;
+  font-size: 12px;
+  bottom: 68px;
+  margin: 30px 0px;
+}
+
+#login {
+  left: 50px;
+}
+#register {
+  left: 450px;
+}
+
+.logo {
+  width: 50px;
+  fill: white;
+  padding-right: 15px;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.waves {
+  bottom: 0;
+  right: 0;
+  position: absolute;
+  width: 100%;
+  height: 15vh;
+  min-height: 100px;
+  max-height: 150px;
+}
+
+.content {
+  position: relative;
+  height: 20vh;
+  text-align: center;
+  background-color: white;
+}
+
+/* Animation */
+
+.parallax > use {
+  animation: move-forever 25s cubic-bezier(0.55, 0.5, 0.45, 0.5) infinite;
+}
+.parallax > use:nth-child(1) {
+  animation-delay: -2s;
+  animation-duration: 7s;
+}
+.parallax > use:nth-child(2) {
+  animation-delay: -3s;
+  animation-duration: 10s;
+}
+.parallax > use:nth-child(3) {
+  animation-delay: -4s;
+  animation-duration: 13s;
+}
+.parallax > use:nth-child(4) {
+  animation-delay: -5s;
+  animation-duration: 20s;
+}
+@keyframes move-forever {
+  0% {
+    transform: translate3d(-90px, 0, 0);
+  }
+  100% {
+    transform: translate3d(85px, 0, 0);
+  }
+}
+/*Shrinking for mobile*/
+@media (max-width: 768px) {
+  .waves {
+    height: 40px;
+    min-height: 40px;
+  }
+  .content {
+    height: 30vh;
+  }
+  h1 {
+    font-size: 24px;
+  }
+}
