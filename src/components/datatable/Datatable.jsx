@@ -1,6 +1,6 @@
 import "./datatable.scss";
 import { DataGrid } from "@mui/x-data-grid";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useInsertionEffect } from "react";
 import { removeComments } from "../../redux/comment/commentApi";
@@ -19,8 +19,9 @@ const Datatable = ({
   reply = false,
 }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const idPro = useParams();
-  console.log("rows", rows);
   const handleDelete = (id, repply) => {
     // setData(data.filter((item) => item.id !== id));
     if (type === "comment") {
@@ -30,18 +31,15 @@ const Datatable = ({
         let commentsDel = rows.filter((item) => item.creator.replyforId === id);
         if (commentsDel.length === 0) {
           removeComments(dispatch, id, idPro.commentId);
-          console.log("idDel1", id);
         } else {
           //khi xóa cha thì sẽ xóa các con comment
           for (let index = 0; index < commentsDel.length; index++) {
-            console.log("idDel2", commentsDel[index].id);
             removeComments(dispatch, commentsDel[index].id, idPro.commentId);
           }
           removeComments(dispatch, id, idPro.commentId);
         }
       } else {
         removeComments(dispatch, id, idPro.commentId);
-        console.log("idDel3", id);
       }
     }
     if (type === "review") {
@@ -60,7 +58,6 @@ const Datatable = ({
       }, 500);
     } else {
     }
-    console.log(id);
   };
   // const hanleReplly = (id)=>{
   //   repplyComments(dispatch,id,idPro.commentId)
@@ -72,11 +69,13 @@ const Datatable = ({
   const actionColumn = [
     {
       field: "action",
-      headerName: "Action",
-      width: 200,
+      renderHeader: (params) => <strong>Xử lý</strong>,
+      headerAlign: "center",
+      flex: 1.5,
+      align: "center",
       renderCell: (params) => {
         return (
-          <div className="cellAction">
+          <div className="cellAction ">
             {type === "comment" && !reply && (
               <Link
                 to={`/comments/${params.row.id}`}
@@ -99,9 +98,17 @@ const Datatable = ({
                 Replly
               </button>
             )}
-            {type === "review" && (
+            {type === "brands" && (
               <Link
-                to={`/reviews/${params.row.id}`}
+                to={`/brands/${params.row.id}`}
+                style={{ textDecoration: "none" }}
+              >
+                <div className="viewButton">Xem</div>
+              </Link>
+            )}
+            {type === "categories" && (
+              <Link
+                to={`/categories/${params.row.id}`}
                 style={{ textDecoration: "none" }}
               >
                 <div className="viewButton">Xem</div>
@@ -116,12 +123,20 @@ const Datatable = ({
               </Link>
             )}
             {type === "products" && (
-              <Link
-                to={`/products/${params.row.id}`}
-                style={{ textDecoration: "none" }}
-              >
-                <div className="viewButton">Xem</div>
-              </Link>
+              <>
+                <Link
+                  to={`/products/${params.row.id}`}
+                  style={{ textDecoration: "none" }}
+                >
+                  <div className="viewButton">Xem</div>
+                </Link>
+                {/* <Link
+                  to={`/products/${params.row.id}`}
+                  style={{ textDecoration: "none" }}
+                >
+                  <div className="updateButton">Sửa</div>
+                </Link> */}
+              </>
             )}
             <div
               className="deleteButton"
@@ -142,11 +157,17 @@ const Datatable = ({
   ];
   return (
     <div className="datatable">
-      <div className="datatableTitle">
-        Quản lý {title}
-        <Link to={"/" + type + "/new"} className="link px-3">
+      <div className="flex justify-between mb-3">
+        <div className="font-semibold text-[24px]">Quản lý {title}</div>
+
+        <div
+          onClick={() => {
+            navigate("/" + type + "/new");
+          }}
+          className="bg-blue-500 text-white w-[200px] rounded-md p-2 flex justify-center items-center cursor-pointer hover:drop-shadow-md transition-all duration-200"
+        >
           Thêm mới
-        </Link>
+        </div>
       </div>
       <DataGrid
         className="datagrid"
@@ -154,7 +175,14 @@ const Datatable = ({
         columns={productColumns?.concat(actionColumn)}
         pageSize={9}
         rowsPerPageOptions={[9]}
-        checkboxSelection
+        sx={{
+          ".MuiDataGrid-columnSeparator": {
+            display: "none",
+          },
+          "&.MuiDataGrid-root": {
+            border: "none",
+          },
+        }}
       />
       <CreatePostModal></CreatePostModal>
     </div>

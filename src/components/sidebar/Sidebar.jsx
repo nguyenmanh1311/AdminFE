@@ -1,34 +1,30 @@
 import "./sidebar.scss";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
-import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import LocalShippingIcon from "@mui/icons-material/LocalShipping";
+import CategoryIcon from "@mui/icons-material/Category";
 import CreditCardIcon from "@mui/icons-material/CreditCard";
+import InventoryIcon from "@mui/icons-material/Inventory";
 import StoreIcon from "@mui/icons-material/Store";
 import InsertChartIcon from "@mui/icons-material/InsertChart";
-import ChatIcon from "@mui/icons-material/Chat";
-import SettingsApplicationsIcon from "@mui/icons-material/SettingsApplications";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
-import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
-import SettingsSystemDaydreamOutlinedIcon from "@mui/icons-material/SettingsSystemDaydreamOutlined";
-import PsychologyOutlinedIcon from "@mui/icons-material/PsychologyOutlined";
-import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { DarkModeContext } from "../../context/darkModeContext";
-import logo from "../../assets/logo/baloshop-b-l.png";
+import logo from "../../assets/logo/baloshop-black.png";
 import { useContext } from "react";
-import { getAllOrders } from "../../redux/order/ordersApi";
 import { useDispatch } from "react-redux";
+import { AuthService } from "../../services/auth.service";
 
 const Sidebar = () => {
   const dispat = useDispatch();
+  const navigate = useNavigate();
 
   const { dispatch } = useContext(DarkModeContext);
 
   const logout = () => {
     if (confirm("Bạn có muốn thoát không?")) {
-      localStorage.removeItem("token");
-      window.location.reload();
+      AuthService.logout();
+      navigate("/login");
     }
   };
   return (
@@ -36,7 +32,7 @@ const Sidebar = () => {
       <div className="top">
         <Link to="/" style={{ textDecoration: "none" }}>
           <span className="logo">
-            <img src={logo} style={{ width: "90px", height: "70px" }} alt="" />
+            <img src={logo} alt="" />
             <span className="title">Dashboard</span>
           </span>
         </Link>
@@ -60,8 +56,20 @@ const Sidebar = () => {
           </Link>
           <Link to="/products" style={{ textDecoration: "none" }}>
             <li>
-              <StoreIcon className="icon" />
+              <InventoryIcon className="icon" />
               <span>Sản phẩm</span>
+            </li>
+          </Link>
+          <Link to="/brands" style={{ textDecoration: "none" }}>
+            <li>
+              <StoreIcon className="icon" />
+              <span>Thương hiệu</span>
+            </li>
+          </Link>
+          <Link to="/categories" style={{ textDecoration: "none" }}>
+            <li>
+              <CategoryIcon className="icon" />
+              <span>Phân loại</span>
             </li>
           </Link>
           <Link to="/orders" style={{ textDecoration: "none" }}>
@@ -88,21 +96,22 @@ const Sidebar = () => {
 							<span>Bình luận</span>
 						</li>
 					</Link> */}
-          <Link to="/order" style={{ textDecoration: "none" }}></Link>
           <p className="title">THỐNG KÊ</p>
-          <li>
-            <InsertChartIcon className="icon" />
-            <span>Doanh thu</span>
-          </li>
+          <Link to="/statistical" style={{ textDecoration: "none" }}>
+            <li>
+              <InsertChartIcon className="icon" />
+              <span>Doanh thu</span>
+            </li>
+          </Link>
           {/* <li>
             <NotificationsNoneIcon className="icon" />
             <span>Thông báo</span>
           </li> */}
           <p className="title">NGƯỜI DÙNG</p>
-          <li>
+          {/* <li>
             <AccountCircleOutlinedIcon className="icon" />
             <span>Trang cá nhân</span>
-          </li>
+          </li> */}
           <li onClick={logout}>
             <ExitToAppIcon className="icon" />
             <span>Đăng xuất</span>

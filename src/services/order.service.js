@@ -1,14 +1,19 @@
 import { axiosInstance, baseURL } from "~/api/axios.config";
 
+export const OrderService = {
+  getAllOrder() {
+    return axiosInstance.get(`${baseURL.data}/invoice`);
+  },
 
-export const orderService = {
-    getAllOrder() {
-        return axiosInstance.get(`${baseURL.data}/orders/`);
-    },
+  get8Transction() {
+    return axiosInstance.get(`${baseURL.data}/invoice/top8nearest`);
+  },
 
+  updateHistoryOrder(data) {
+    return axiosInstance.post(`${baseURL.data}/invoice`, data);
+  },
 
-    updateHistoryOrder(id, data) {
-        return axiosInstance.patch(`${baseURL.data}/orders/${id}`, data);
-    },
-
+  getAllOrderDetailByOrderId(id) {
+    return axiosInstance.get(`${baseURL.data}/invoice-detail/` + id);
+  },
 };

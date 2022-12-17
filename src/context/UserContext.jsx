@@ -1,7 +1,7 @@
 import { axiosInstance, baseURL } from "~/api/axios.config";
 import WithAxios from "../helpers/WithAxios";
 import React, { createContext, useContext, useEffect, useState } from "react";
-import authService from "../services/auth.service";
+// import authService from "../services/auth.service";
 
 const UserContext = createContext();
 
@@ -52,7 +52,7 @@ const UserProvider = ({ children }) => {
     setIsLoggedIn(true);
     //setUserData(user);
     setAuthData({
-      token
+      token,
     });
     localStorage.setItem("token", JSON.stringify(token));
   };
@@ -61,7 +61,7 @@ const UserProvider = ({ children }) => {
     setUserData(null);
     setAuthData(null);
     setIsLoggedIn(false);
-    authService.logout();
+    // authService.logout();
   };
 
   return (

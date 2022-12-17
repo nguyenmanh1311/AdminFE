@@ -1,126 +1,127 @@
-import { useState } from "react";
-import clsx from "clsx";
-import styles from "./login.module.scss";
-import authService from "../../services/auth.service";
-import { useUser } from "../../context/UserContext";
-import { Navigate } from "react-router-dom";
-import Alert from "@mui/material/Alert";
+import "./login.scss";
+import React, { useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import logo from "../../assets/logo/baloshop-w.png";
+import swal2 from "sweetalert2";
+import { AuthService } from "../../services/auth.service";
+
 const Login = () => {
-  const [login, setLogin] = useState(true);
-  const { isLoggedIn, setUserState } = useUser();
-  const [email, setEmail] = useState("");
-  const [redirectToReferrer, setRedirectToReferrer] = useState(false);
-  const [password, setPassword] = useState("");
-  const handleEmailChange = () => {
-    setEmail(event.target.value);
-  };
-  const handlePasswordChange = () => {
-    setPassword(event.target.value);
-  };
-  const [alert, setAlert] = useState(false);
-  const handleLoginSubmit = async () => {
-    event.preventDefault();
-    try {
-      const res = await authService.login(email, password);
-      if (res.statusCode) {
-        setTimeout(() => {
-          setUserState(res);
-        }, 1500);
-      } else {
-        setAlert(true);
+  const loginRef = useRef(null);
+  const registerRef = useRef(null);
+  const btnRef = useRef(null);
+
+  const [usernameLogin, setUsernameLogin] = useState("");
+  const [passwordLogin, setPasswordLogin] = useState("");
+
+  const navigate = useNavigate();
+  const loginOnclick = async () => {
+    await AuthService.login(usernameLogin, passwordLogin).then((response) => {
+      if (
+        response.status === "UNAUTHORIZED" ||
+        response.status === "BAD_REQUEST"
+      ) {
+        swal2.fire(
+          "Thông báo",
+          "Thông tin đăng nhập không chính xác!",
+          "warning"
+        );
       }
-    } catch (error) {}
+      try {
+        if (!response.data.enable) {
+          {
+            localStorage.clear();
+            swal2.fire("Thông báo", "Tài khoản đã dừng hoạt động!", "error");
+          }
+        }
+      } catch (error) {}
+
+      if (localStorage.getItem("accessToken")) {
+        navigate("/");
+      }
+    });
   };
-  const handleSignupSubmit = () => {};
 
-  if (redirectToReferrer) {
-    return <Navigate to="/" />;
-  }
-  if (isLoggedIn) {
-    return <Navigate to="/" />;
-  }
+  const login = () => {
+    loginRef.current.style.left = "50px";
+    registerRef.current.style.left = "450px";
+    btnRef.current.style.left = "0";
+  };
   return (
-    <div className={styles.body}>
-      <div className={styles.container}>
-        <div className={styles.backbox}>
-          <div className={clsx(styles.loginMsg, !login && styles.hide)}>
-            {" "}
-            <div className={styles.textcontent}>
-              <p className={styles.title}>Bạn chưa có tài khoản?</p>
-              <p>Đăng ký tại đây</p>
-              <button id="switch1" onClick={() => setLogin(false)}>
-                Đăng ký
-              </button>
-            </div>
+    <div>
+      <div className="hero">
+        <div className="form-box">
+          <div className="social-icons">
+            <img src={logo} alt="" />
           </div>
-          <div className={clsx(styles.signupMsg, login && styles.hide)}>
-            <div className={styles.textcontent}>
-              <p className={styles.title}>Bạn đã có tài khoản rồi</p>
-              <p>Đăng nhập tại đây</p>
-              <button id="switch2" onClick={() => setLogin(true)}>
-                Đăng nhập
-              </button>
+
+          <div id="login" ref={loginRef} className="input-group-login">
+            <input
+              type="text"
+              className="input-field"
+              placeholder="Nhập số điện thoại "
+              required
+              onChange={(event) => {
+                setUsernameLogin(event.target.value);
+              }}
+            />
+            <input
+              type="password"
+              className="input-field"
+              placeholder="Nhập mật khẩu"
+              required
+              onChange={(event) => {
+                setPasswordLogin(event.target.value);
+              }}
+            />
+            <div className="d-flex align-items-center">
+              <input id="remember" type="checkbox" className="check-box" />
+              <label style={{ marginBottom: 0 }} htmlFor="remember">
+                Ghi nhớ mật khẩu
+              </label>
+            </div>
+            <div className="submit-btn" onClick={loginOnclick}>
+              Đăng nhập
             </div>
           </div>
         </div>
-
-        <div className={styles.frontbox}>
-          {alert && <p className={styles.alert}>Đăng nhập thất bại</p>}
-          <form
-            onSubmit={handleLoginSubmit}
-            className={clsx(styles.login, !login && styles.hide)}
-          >
-            <h2>Đăng nhập</h2>
-            <div className={styles.inputbox}>
-              <input
-                type="text"
-                name="email"
-                value={email}
-                onChange={handleEmailChange}
-                placeholder="email"
-                tabIndex={1}
-              />
-              <input
-                type="password"
-                name="password"
-                value={password}
-                onChange={handlePasswordChange}
-                placeholder="password"
-                tabIndex={2}
-              />
-            </div>
-            <p>Quên mật khẩu</p>
-            <button type="submit">Đăng nhập</button>
-          </form>
-
-          <form
-            onSubmit={handleSignupSubmit}
-            className={clsx(styles.signup, login && styles.hide)}
-          >
-            <h2>Đăng ký</h2>
-            <div className={styles.inputbox}>
-              <input
-                type="text"
-                name="fullname"
-                placeholder="fullname"
-                tabIndex={1}
-              />
-              <input
-                type="text"
-                name="email"
-                placeholder="email"
-                tabIndex={2}
-              />
-              <input
-                type="password"
-                name="password"
-                placeholder="password"
-                tabIndex={3}
-              />
-            </div>
-            <button type="submit">Đăng ký</button>
-          </form>
-        </div>
+      </div>
+      <div>
+        <svg
+          className="waves"
+          xmlns="http://www.w3.org/2000/svg"
+          xmlnsXlink="http://www.w3.org/1999/xlink"
+          viewBox="0 24 150 28"
+          preserveAspectRatio="none"
+          shapeRendering="auto"
+        >
+          <defs>
+            <path
+              id="gentle-wave"
+              d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z"
+            />
+          </defs>
+          <g className="parallax">
+            <use
+              xlinkHref="#gentle-wave"
+              x="48"
+              y="0"
+              fill="rgba(255,255,255,0.7"
+            />
+            <use
+              xlinkHref="#gentle-wave"
+              x="48"
+              y="3"
+              fill="rgba(255,255,255,0.5)"
+            />
+            <use
+              xlinkHref="#gentle-wave"
+              x="48"
+              y="5"
+              fill="rgba(255,255,255,0.3)"
+            />
+            <use xlinkHref="#gentle-wave" x="48" y="7" fill="#fff" />
+          </g>
+        </svg>
       </div>
     </div>
   );

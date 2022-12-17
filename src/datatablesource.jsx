@@ -1,50 +1,78 @@
+import React, { useState } from "react";
 export const productColumns = [
-  { field: "id", headerName: "ID", width: 70 },
   {
-    field: "img",
-    headerName: "Hình ảnh",
-    width: 100,
+    field: "id",
+    renderHeader: (params) => <strong>ID</strong>,
+    headerAlign: "center",
+    align: "center",
+    flex: 0.4,
+  },
+  {
+    field: "image",
+    renderHeader: (params) => <strong>Hình ảnh</strong>,
+    headerAlign: "center",
+    align: "center",
+    flex: 0.7,
     renderCell: (params) => {
       return (
         <div className="cellWithImg">
-          <img className="cellImg" src={params.row.img} alt="avatar" />
-          {params.row.username}
+          <img
+            className="cellImg"
+            src={"http://localhost:8080/api/v1/user/image/" + params.row.image}
+            alt="avatar"
+          />
         </div>
       );
     },
   },
   {
-    field: "title",
-    headerName: "Tên sản phẩm",
-    width: 230,
+    field: "name",
+    renderHeader: (params) => <strong>Tên sản phẩm</strong>,
+    headerAlign: "center",
+    flex: 2,
   },
   {
-    field: "brand",
-    headerName: "Thương hiệu",
-    width: 120,
+    field: "brandName",
+    renderHeader: (params) => <strong>Thương hiệu</strong>,
+    align: "center",
+    headerAlign: "center",
+    flex: 0.8,
+  },
+  {
+    field: "cateName",
+    renderHeader: (params) => <strong>Thể loại</strong>,
+    headerAlign: "center",
+    align: "center",
+    flex: 1,
   },
   {
     field: "price",
-    headerName: "Giá bán",
-    width: 100,
+    renderHeader: (params) => <strong>Giá bán</strong>,
+    headerAlign: "center",
+    align: "center",
+    flex: 0.6,
   },
   {
-    field: "import-price",
-    headerName: "Giá nhập",
-    width: 100,
+    field: "standCost",
+    renderHeader: (params) => <strong>Giá nhập</strong>,
+    headerAlign: "center",
+    align: "center",
+    flex: 0.6,
   },
   {
     field: "description",
-    headerName: "Mô tả",
-    width: 200,
+    renderHeader: (params) => <strong>Mô tả</strong>,
+    headerAlign: "center",
+    flex: 2,
   },
 ];
 export const commentColumns = [
-  { field: "id", headerName: "IdComment", width: 70 },
+  { field: "id", headerName: "IdComment", headerAlign: "center", width: 70 },
 
   {
     field: "creator",
     headerName: "Username",
+    headerAlign: "center",
     width: 150,
     valueGetter: (params) => {
       let result = [];
@@ -61,17 +89,20 @@ export const commentColumns = [
   {
     field: "content",
     headerName: "Content",
+    headerAlign: "center",
     width: 230,
   },
 
   {
     field: "create_date",
     headerName: "Date",
+    headerAlign: "center",
     width: 100,
   },
   {
     field: "replyforId",
     headerName: "IdParent",
+    headerAlign: "center",
     width: 130,
     valueGetter: (params) => {
       let result = [];
@@ -89,78 +120,97 @@ export const commentColumns = [
   {
     field: "productId",
     headerName: "Product",
+    headerAlign: "center",
     width: 100,
   },
 ];
-
 export const userColumns = [
-  { field: "id", headerName: "ID", width: 100 },
   {
-    field: "avatar",
-    headerName: "Hình ảnh",
-    width: 100,
+    field: "id",
+    renderHeader: (params) => <strong>ID</strong>,
+    headerAlign: "center",
+    align: "center",
+    flex: 0.4,
+  },
+  {
+    field: "photo",
+    renderHeader: (params) => <strong>Hình ảnh</strong>,
+    headerAlign: "center",
+    sortable: false,
     renderCell: (params) => {
       return (
         <div className="cellWithImg">
-          <img className="cellImg" src={params.row.avatar} alt="avatar" />
+          <img
+            className="cellImg"
+            src={"http://localhost:8080/api/v1/user/image/" + params.row.photo}
+            alt="avatar"
+          />
         </div>
       );
     },
+    align: "center",
+    flex: 0.7,
   },
   {
-    field: "username",
-    headerName: "Họ tên khách hàng",
-    width: 230,
-    renderCell: (params) => {
-      return <div className="cellWithImg">{params.row.username}</div>;
-    },
+    field: "fullName",
+    renderHeader: (params) => <strong>Họ tên khách hàng</strong>,
+    sortable: false,
   },
   {
-    field: "sex",
-    headerName: "Giới tính",
-    width: 80,
+    field: "gender",
+    renderHeader: (params) => <strong>Giới tính</strong>,
+    headerAlign: "center",
+    sortable: false,
+    align: "center",
   },
   {
-    field: "birthday",
-    headerName: "Ngày sinh",
-    width: 100,
+    field: "dateOfBirth",
+    renderHeader: (params) => <strong>Ngày sinh</strong>,
+    headerAlign: "center",
+    align: "center",
+    flex: 0.8,
+    sortable: false,
   },
   {
     field: "phone",
-    headerName: "Số điện thoại",
-    width: 100,
+    renderHeader: (params) => <strong>Số điện thoại</strong>,
+    headerAlign: "center",
+    flex: 0.8,
+    align: "center",
+    sortable: false,
   },
   {
     field: "email",
-    headerName: "Email",
-    width: 100,
+    renderHeader: (params) => <strong>Email</strong>,
+    headerAlign: "center",
+    width: 150,
+    flex: 0.7,
+    sortable: false,
   },
-  {
-    field: "status",
-    headerName: "Trạng thái",
-    width: 100,
-  },
+
   {
     field: "address",
-    headerName: "Địa chỉ",
-    width: 500,
-    valueGetter: (params) => {
-      let result = [];
-      if (params.row.address) {
-        result.push(
-          params.row.address.homeAdd +
-            ", " +
-            params.row.address.ward +
-            ", " +
-            params.row.address.district +
-            ", " +
-            params.row.address.city
-        );
-      } else {
-        result = ["Unknown"];
-      }
-      return result.join(", ");
-    },
+    renderHeader: (params) => <strong>Địa chỉ</strong>,
+    headerAlign: "center",
+    sortable: false,
+    flex: 1.7,
+    // valueGetter: (params) => {
+    //   let result = [];
+    //   if (params.row.address) {
+    //     result.push(
+    //       params.row.address.homeAdd +
+    //         ", " +
+    //         params.row.address.ward +
+    //         ", " +
+    //         params.row.address.district +
+    //         ", " +
+    //         params.row.address.city
+    //     );
+    //   } else {
+    //     result = ["Unknown"];
+    //   }
+    //   return result.join(", ");
+    // },
   },
 ];
 
@@ -168,7 +218,8 @@ export const reviewProductColumns = [
   {
     field: "id",
     headerName: "ID",
-    width: 50,
+    headerAlign: "center",
+    width: 70,
     renderCell: (params) => {
       return <div className="cellWithImg">{params.row.id}</div>;
     },
@@ -176,6 +227,7 @@ export const reviewProductColumns = [
   {
     field: "product",
     headerName: "Product",
+    headerAlign: "center",
     width: 550,
     renderCell: (params) => {
       return (
@@ -190,6 +242,7 @@ export const reviewProductColumns = [
   {
     field: "star",
     headerName: "Stars",
+    headerAlign: "center",
     width: 80,
     renderCell: (params) => {
       return <div className="cellWithImg">{params.row.star}</div>;
@@ -198,6 +251,7 @@ export const reviewProductColumns = [
   {
     field: "totalVote",
     headerName: "Total Vote",
+    headerAlign: "center",
     width: 90,
     renderCell: (params) => {
       return <div className="cellWithImg">{params.row.totalVote}</div>;
@@ -205,11 +259,36 @@ export const reviewProductColumns = [
   },
 ];
 
+export const brandColumns = [
+  {
+    field: "id",
+    renderHeader: (params) => <strong>ID</strong>,
+    headerAlign: "center",
+    align: "center",
+    flex: 0.4,
+  },
+  {
+    field: "name",
+    renderHeader: (params) => <strong>Tên thương hiệu</strong>,
+    headerAlign: "center",
+    align: "center",
+    flex: 1.1,
+  },
+
+  {
+    field: "description",
+    renderHeader: (params) => <strong>Mô tả</strong>,
+    headerAlign: "center",
+    flex: 6.8,
+  },
+];
+
 export const reviewDetailColumns = [
   {
     field: "id",
     headerName: "ID",
-    width: 400,
+    headerAlign: "center",
+    width: 70,
     renderCell: (params) => {
       return <div className="cellWithImg">{params.row.id}</div>;
     },
@@ -218,6 +297,7 @@ export const reviewDetailColumns = [
   {
     field: "user",
     headerName: "User",
+    headerAlign: "center",
     width: 100,
     renderCell: (params) => {
       return <div className="cellWithImg">{params.row.user.username}</div>;
@@ -227,6 +307,7 @@ export const reviewDetailColumns = [
   {
     field: "star",
     headerName: "Stars",
+    headerAlign: "center",
     width: 80,
     renderCell: (params) => {
       return <div className="cellWithImg">{params.row.star}</div>;
@@ -235,6 +316,30 @@ export const reviewDetailColumns = [
   {
     field: "content",
     headerName: "Content",
+    headerAlign: "center",
     width: 230,
+  },
+];
+export const categoryColumns = [
+  {
+    field: "id",
+    renderHeader: () => <strong>ID</strong>,
+    headerAlign: "center",
+    align: "center",
+    flex: 0.4,
+  },
+
+  {
+    field: "name",
+    renderHeader: () => <strong>Tên phân loại</strong>,
+    headerAlign: "center",
+    flex: 1.1,
+  },
+
+  {
+    field: "description",
+    renderHeader: () => <strong>Mô tả</strong>,
+    headerAlign: "center",
+    flex: 7,
   },
 ];

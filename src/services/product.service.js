@@ -1,19 +1,23 @@
 import { axiosInstance, baseURL } from "~/api/axios.config";
 
 class ProductService {
-  getProducts() {
-    return axiosInstance.get(`${baseURL.data}/products`);
+  getAllProducts() {
+    return axiosInstance.get(`${baseURL.data}/product/all`).then((res) => {
+      return res.data;
+    });
   }
-  getProduct(id) {
-    return axiosInstance.get(`${baseURL.data}/products/${id}`);
+  getProductById(id) {
+    return axiosInstance.get(`${baseURL.data}/product/${id}`).then((res) => {
+      return res.data;
+    });
   }
   getProductByName(name) {
     return axiosInstance.get(`${baseURL.data}/products/${name}`);
   }
-  deleteProductByID(id){
+  deleteProductByID(id) {
     return axiosInstance.delete(`${baseURL.data}/products/${id}`);
   }
-  postProduct(product){
+  postProduct(product) {
     return axiosInstance.post(`${baseURL.data}/products${product}`);
   }
 }
