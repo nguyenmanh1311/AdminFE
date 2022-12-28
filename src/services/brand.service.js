@@ -11,14 +11,17 @@ class BrandService {
       return res.data;
     });
   }
-  getProductByName(name) {
-    return axiosInstance.get(`${baseURL.data}/products/${name}`);
+  deleteBrandByID(id) {
+    return axiosInstance.delete(`${baseURL.data}/brand/${id}`).then((res) => {
+      return res.data;
+    });
   }
-  deleteProductByID(id) {
-    return axiosInstance.delete(`${baseURL.data}/products/${id}`);
-  }
-  postProduct(product) {
-    return axiosInstance.post(`${baseURL.data}/products${product}`);
+  putBrand(input, id) {
+    return axiosInstance
+      .put(`${baseURL.data}/brand/${id}`, input)
+      .then((res) => {
+        return res.data;
+      });
   }
 }
 

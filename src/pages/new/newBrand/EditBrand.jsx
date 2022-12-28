@@ -1,25 +1,23 @@
 import "../new.scss";
 import { useState, useEffect, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { baseURL_ } from "../../../api/axios.config";
 import brandService from "../../../services/brand.service";
 
-const EditBrand = ({ inputs, name }) => {
+const EditBrand = ({ name }) => {
   const param = useParams();
   const navigate = useNavigate();
   const [isLoading, setLoad] = useState(true);
   const [brands, setBrand] = useState([]);
 
   //
-  const brand = useRef();
+  const brandRef = useRef();
+  const descriptionRef = useRef();
 
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    brandService.getBrandById(param.branchId).then((res) => {
+    brandService.getBrandById(param.brandId).then((res) => {
       setData(res.data);
-      brand.current.value = res?.data?.branchId;
-      document.getElementById("description").value = res.data.description;
     });
 
     brandService.getAllBrands().then((res) => {
@@ -29,26 +27,20 @@ const EditBrand = ({ inputs, name }) => {
   }, [isLoading]);
 
   const handleSubmit = (e) => {
-    var _dataPhone = new FormData();
     e.preventDefault();
-    const description = document.getElementById("description").value;
+    const name = brandRef.current.value;
+    const description = descriptionRef.current.value;
+    const input = {
+      name,
+      description,
+    };
 
-    _dataPhone.append("brand", Number(brand.current.value));
-    _dataPhone.append("description", description);
-    // async function postData(url = "", data = new FormData()) {
-    //   const response = await fetch(url, {
-    //     method: "PUT",
-    //     redirect: "follow",
-    //     body: data,
-    //   });
-    //   return response;
-    // }
-
-    // postData(baseURL_.data + "/products/" + data.id, _dataPhone).then(
-    //   (data) => {}
-    // );
-    // navigate("/products");
-    console.log(..._dataPhone);
+    brandService.putBrand(input, param.brandId).then((res) => {
+      return res.data;
+    });
+    setTimeout(() => {
+      navigate("/brands");
+    }, 300);
   };
   return (
     <div className="new">
@@ -62,20 +54,25 @@ const EditBrand = ({ inputs, name }) => {
               <div className="formContainer">
                 <div className="formInput">
                   <label>Thương hiệu</label>
-                  <select
+                  <input
                     name="brand"
                     id="brand"
-                    ref={brand}
-                    className={`w-full border rounded-md focus:outline-none text-[15px] border-gray-300 shadow-sm sm:text-[15px]`}
-                  >
-                    {brands.map((item) => {
-                      return <option value={item.id}>{item.name}</option>;
-                    })}
-                  </select>
+                    placeholder=""
+                    ref={brandRef}
+                    defaultValue={data.name}
+                    required
+                  />
                 </div>
                 <div className="formInput">
                   <label>Mô tả</label>
-                  <input id="description" type="text" placeholder="" required />
+                  <input
+                    id="description"
+                    type="text"
+                    ref={descriptionRef}
+                    defaultValue={data.description}
+                    placeholder=""
+                    required
+                  />
                 </div>
               </div>
 

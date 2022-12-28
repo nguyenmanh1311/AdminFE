@@ -27,12 +27,10 @@ const NewBrand = ({ inputs, title }) => {
     axios(config)
       .then(function (response) {
         if (response.data.status === "OK") {
-          navigate("/brand");
+          navigate("/brands");
         }
       })
-      .catch(function (error) {
-        console.log(error);
-      });
+      .catch(function (error) {});
   };
 
   return (

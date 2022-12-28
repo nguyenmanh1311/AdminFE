@@ -18,7 +18,6 @@ const NewCategory = ({ inputs, title }) => {
       name,
       description,
     };
-    console.log(x);
     async function postData(url = "", data = new FormData()) {
       const response = await fetch(url, {
         mode: "no-cors",

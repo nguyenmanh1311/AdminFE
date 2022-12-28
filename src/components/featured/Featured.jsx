@@ -15,7 +15,6 @@ const Featured = ({ profit, revenue }) => {
     );
   };
   const percentage = (profit / revenue) * 100;
-  console.log(percentage);
   return (
     <div className="featured hover:drop-shadow-md bg-white">
       <div className="top">

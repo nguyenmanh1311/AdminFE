@@ -5,7 +5,7 @@ import { addProductInputs } from "../../../formSource";
 import { baseURL_ } from "../../../api/axios.config";
 import { useNavigate } from "react-router-dom";
 
-const NewUser = ({ inputs, title }) => {
+const NewCustomer = ({ inputs, title }) => {
   document.title = "Thêm sản phẩm mới";
   const [file, setFile] = useState(null);
   const [arrFile, setArrFile] = useState([]);
@@ -23,7 +23,6 @@ const NewUser = ({ inputs, title }) => {
   const handleSubmit = (e) => {
     var data = new FormData();
     e.preventDefault();
-    const title = document.getElementById("title").value;
     const fullname = document.getElementById("fullname").value;
     const gender = document.getElementById("gender").value;
     const birthday = document.getElementById("birthday").value;
@@ -31,7 +30,6 @@ const NewUser = ({ inputs, title }) => {
     const email = document.getElementById("email").value;
     const file = document.getElementById("file").value;
 
-    data.append("title", title);
     data.append("fullname", fullname);
     data.append("gender", gender);
     data.append("birthday", birthday);
@@ -44,10 +42,7 @@ const NewUser = ({ inputs, title }) => {
       birthday,
       phone,
       email,
-      slug,
-      screen,
     };
-    console.log(x);
     async function postData(url = "", data = new FormData()) {
       const response = await fetch(url, {
         mode: "no-cors",
@@ -57,8 +52,8 @@ const NewUser = ({ inputs, title }) => {
       });
       return response;
     }
-    postData(baseURL_.data + "/products", data).then((data) => {
-      navigate("/products");
+    postData(baseURL_.data + "/users", data).then(() => {
+      navigate("/users");
     });
   };
 
@@ -90,7 +85,6 @@ const NewUser = ({ inputs, title }) => {
                   id="file"
                   onChange={(e) => {
                     setFile(e.target.files[0]);
-                    console.log(file);
                   }}
                   style={{ display: "none" }}
                 />
@@ -165,4 +159,4 @@ const NewUser = ({ inputs, title }) => {
   );
 };
 
-export default NewUser;
+export default NewCustomer;

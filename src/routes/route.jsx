@@ -13,13 +13,15 @@ import { typeProduct, typeBrand, typeCategory } from "../formSource";
 import EditProduct from "../pages/new/newProduct/EditProduct";
 import NewProduct from "../pages/new/newProduct/NewProduct";
 import Login from "../pages/login/Login";
-import NewUser from "../pages/new/user/NewUser";
+import NewCustomer from "../pages/new/user/NewCustomer";
 import NewBrand from "../pages/new/newBrand/NewBrand";
 import ListBrand from "../pages/list/ListBrand";
 import ListCategory from "../pages/list/ListCategory";
 import EditBrand from "../pages/new/newBrand/EditBrand";
 import EditCategory from "../pages/new/newCategory/EditCategory";
 import NewCategory from "../pages/new/newCategory/NewCategory";
+import ListStaff from "../pages/list/ListStaff";
+import NewStaff from "../pages/new/newStaff/NewStaff";
 export const AdminRoutes = () => {
   return (
     <Routes>
@@ -46,7 +48,16 @@ export const AdminRoutes = () => {
           <Route
             path="new"
             element={
-              <NewUser inputs={userInputs} title="Thêm người dùng mới" />
+              <NewCustomer inputs={userInputs} title="Thêm người dùng mới" />
+            }
+          />
+        </Route>
+        <Route path="staffs">
+          <Route index element={<ListStaff />} />
+          <Route
+            path="new"
+            element={
+              <NewStaff inputs={userInputs} title="Thêm nhân viên mới" />
             }
           />
         </Route>

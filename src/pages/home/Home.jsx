@@ -11,10 +11,10 @@ const Home = () => {
   document.title = "Bảng điều khiển";
   const [amount, setAmount] = useState({});
   // const [amountProfit, setAmountProfit] = useState(1);
-  // const [dataSixMoth, setDataSixMoth] = useState();
+  const [dataSevenDay, setDataSevenDay] = useState([]);
+  const [dataSevenDayInvoice, setDataSevenDayINvoice] = useState([]);
   // const profit = () => {
   //   StatisticService.getProfit().then((response) => {
-  //     console.log("Profit: " + response.data.data);
   //     setAmountProfit(response.data.data);
   //   });
   // };
@@ -24,15 +24,18 @@ const Home = () => {
     });
   };
 
-  // const dataSixMonth = () => {
-  //   StatisticService.getAmountSixMonth().then((response) => {
-  //     setDataSixMoth(response.data.data);
-  //   });
-  // };
+  const dataSixMonth = () => {
+    StatisticService.getAmountSixMonth().then((response) => {
+      setDataSevenDay(response.data.data);
+    });
+    StatisticService.getAmountSixMonthInvoice().then((response) => {
+      setDataSevenDayINvoice(response.data.data);
+    });
+  };
   useEffect(() => {
     Amount();
     // profit();
-    // dataSixMonth();
+    dataSixMonth();
   }, []);
   if (localStorage.getItem("accessToken") === null) {
     return <Navigate to="/login" />;
@@ -46,14 +49,23 @@ const Home = () => {
         <Widget type="earning" amount={amount.totalTurnover} />
         <Widget type="product" amount={amount.totalProduct} />
       </div>
-      <div className="charts">
-        {/* <Featured profit={amountProfit} revenue={amountRevenue} /> */}
-        {/* <Chart
-          title="Doanh thu 6 tháng gần nhất"
-          aspect={2 / 1}
-          data={dataSixMoth}
-        /> */}
+      <div className="w-full flex">
+        <div className="pl-4 pr-2 w-1/2">
+          <Chart
+            title="Doanh thu 7 gần đây"
+            aspect={2 / 1}
+            data={dataSevenDay}
+          />
+        </div>
+        <div className="pr-4 pl-2 w-1/2">
+          <Chart
+            title="Số đơn 7 ngày gần đây"
+            aspect={2 / 1}
+            data={dataSevenDayInvoice}
+          />
+        </div>
       </div>
+
       <div className="listContainer">
         <div className="listTitle">Giao dịch mới nhất</div>
         <Table />

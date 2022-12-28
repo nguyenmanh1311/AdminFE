@@ -1,11 +1,13 @@
 import "../new.scss";
 import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { addProductInputs } from "../../../formSource";
 import { baseURL_ } from "../../../api/axios.config";
 import { useNavigate } from "react-router-dom";
 import brandService from "../../../services/brand.service";
 import categoryService from "../../../services/category.service";
+import productService from "../../../services/product.service";
+import imageService from "../../../services/image.service";
 
 const NewProduct = ({ inputs, title }) => {
   document.title = "Thêm sản phẩm mới";
@@ -26,7 +28,6 @@ const NewProduct = ({ inputs, title }) => {
     });
     setLoad(false);
   }, [isLoading]);
-
   const handleSubmit = (e) => {
     var data = new FormData();
     e.preventDefault();
@@ -37,41 +38,51 @@ const NewProduct = ({ inputs, title }) => {
     const price = document.getElementById("price").value;
     const standCost = document.getElementById("standCost").value;
 
-    data.append("name", name);
-    data.append("description", description);
-    data.append("branchId", brand);
-    data.append("categoryId", category);
-    data.append("price", price);
-    data.append("standCost", standCost);
-    data.append("image", file);
-    data.append("galleryOld", ["nul"]);
-    for (let i = 0; i < arrFile.length; i++) {
-      data.append("galleryNew", arrFile[i]);
-    }
-    const x = {
-      title,
-      name,
-      brand,
-      price,
-      standCost,
-      description,
-      quantity,
-      file,
-      arrFile,
-    };
-    console.log(x);
-    async function postData(url = "", data = new FormData()) {
-      const response = await fetch(url, {
-        mode: "no-cors",
-        method: "POST",
-        redirect: "follow",
-        body: data,
+    const postData = () => {
+      var imageForm = new FormData();
+      imageForm.append("image", file);
+      imageService.saveImage(imageForm).then((response) => {
+        if (response.status === "OK") {
+          const image = response.data[0];
+          const input = {
+            branchId: brand,
+            categoryId: category,
+            code: "",
+            description: description,
+            discountId: null,
+            image: image,
+            name: name,
+            price: price,
+            standCost: standCost,
+          };
+          productService.createNewProduct(input).then((res) => {
+            if (res.status === "OK") {
+              const productId = res.data?.id;
+              var form = new FormData();
+              for (let i = 0; i < arrFile.length; i++) {
+                form.append("image", arrFile[i]);
+              }
+              imageService.saveImage(form).then((res) => {
+                if (res.status === "OK") {
+                  let images = [];
+                  for (let i = 0; i < res.data?.length; i++) {
+                    images.push(res.data[i]);
+                  }
+                  const x = {
+                    path: images,
+                    productId: Number(productId),
+                  };
+                  imageService.saveList(x).then((res) => {
+                    navigate("/products");
+                  });
+                }
+              });
+            }
+          });
+        }
       });
-      return response;
-    }
-    postData(baseURL_.data + "/products", data).then((data) => {
-      navigate("/products");
-    });
+    };
+    postData();
   };
 
   return (
@@ -103,7 +114,6 @@ const NewProduct = ({ inputs, title }) => {
                   id="file"
                   onChange={(e) => {
                     setFile(e.target.files[0]);
-                    console.log(file);
                   }}
                   style={{ display: "none" }}
                 />

@@ -98,6 +98,7 @@ const Order = (props) => {
           <Table.HeadCell>Tổng giá</Table.HeadCell>
           <Table.HeadCell> Ngày đặt mua</Table.HeadCell>
           <Table.HeadCell>Trạng thái</Table.HeadCell>
+          <Table.HeadCell>Thanh toán</Table.HeadCell>
           <Table.HeadCell>Tương tác</Table.HeadCell>
           <Table.HeadCell>Xử lý</Table.HeadCell>
         </Table.Head>
@@ -127,6 +128,13 @@ const Order = (props) => {
                   <Table.Cell className={styleStatus}>
                     {order.status}
                   </Table.Cell>
+                  {order.isPayment == true && (
+                    <Table.Cell>Đã thanh toán</Table.Cell>
+                  )}
+                  {order.isPayment == false && (
+                    <Table.Cell>Chưa thanh toán</Table.Cell>
+                  )}
+
                   <Table.Cell className="text-blue-400 hover:text-blue-700 select-none">
                     <button
                       onClick={() =>

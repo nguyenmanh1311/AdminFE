@@ -1,12 +1,13 @@
 import "./sidebar.scss";
 import DashboardIcon from "@mui/icons-material/Dashboard";
-import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
+import PersonIcon from "@mui/icons-material/Person";
 import LocalShippingIcon from "@mui/icons-material/LocalShipping";
 import CategoryIcon from "@mui/icons-material/Category";
 import CreditCardIcon from "@mui/icons-material/CreditCard";
 import InventoryIcon from "@mui/icons-material/Inventory";
 import StoreIcon from "@mui/icons-material/Store";
 import InsertChartIcon from "@mui/icons-material/InsertChart";
+import GroupIcon from "@mui/icons-material/Group";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import { Link, useNavigate } from "react-router-dom";
 import { DarkModeContext } from "../../context/darkModeContext";
@@ -50,8 +51,14 @@ const Sidebar = () => {
           <p className="title">QUẢN LÝ</p>
           <Link to="/users" style={{ textDecoration: "none" }}>
             <li>
-              <PersonOutlineIcon className="icon" />
+              <PersonIcon className="icon" />
               <span>Khách hàng</span>
+            </li>
+          </Link>
+          <Link to="/staffs" style={{ textDecoration: "none" }}>
+            <li>
+              <GroupIcon className="icon" />
+              <span>Nhân viên</span>
             </li>
           </Link>
           <Link to="/products" style={{ textDecoration: "none" }}>
@@ -78,12 +85,12 @@ const Sidebar = () => {
               <span>Đơn hàng</span>
             </li>
           </Link>
-          <Link to="/delivery" style={{ textDecoration: "none" }}>
+          {/* <Link to="/delivery" style={{ textDecoration: "none" }}>
             <li>
               <LocalShippingIcon className="icon" />
               <span>Giao hàng</span>
             </li>
-          </Link>
+          </Link> */}
           {/* <Link to="/reviews" style={{ textDecoration: "none" }}>
 						<li>
 							<ThumbUpIcon className="icon" />

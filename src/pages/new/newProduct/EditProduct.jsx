@@ -5,35 +5,29 @@ import { useNavigate, useParams } from "react-router-dom";
 import productService from "../../../services/product.service";
 import brandService from "../../../services/brand.service";
 import categoryService from "../../../services/category.service";
+import imageService from "../../../services/image.service";
 
 const EditProduct = ({ inputs, name }) => {
   const param = useParams();
   const navigate = useNavigate();
-  const [arrFile, setArrFile] = useState([]);
   const [isLoading, setLoad] = useState(true);
-  const [fileInput, setFileInput] = useState([]);
+  const [arrFile, setArrFile] = useState([]);
   const fileRef = useRef();
   const [file, setFile] = useState(null);
   const [brands, setBrand] = useState([]);
   const [categories, setCate] = useState([]);
-
+  const [images, setImages] = useState([]);
   //
   const brand = useRef();
   const category = useRef();
-
+  const price = useRef();
+  const standCost = useRef();
+  const nameProduct = useRef();
+  const description = useRef();
+  const thumbnail = useRef();
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    productService.getProductById(param.productId).then((res) => {
-      setData(res.data);
-      brand.current.value = res?.data?.branchId;
-      document.getElementById("name").value = res.data?.name;
-      document.getElementById("standCost").value = res.data.standCost;
-      document.getElementById("price").value = res.data.price;
-      document.getElementById("description").value = res.data.description;
-      setArrFile(res.data.gallery);
-    });
-
     brandService.getAllBrands().then((res) => {
       setBrand(res.data);
     });
@@ -41,39 +35,98 @@ const EditProduct = ({ inputs, name }) => {
       setCate(res.data);
     });
     setLoad(false);
+    productService.getProductById(param.productId).then((res) => {
+      setData(res.data);
+      brand.current.value = res.data?.branchId;
+      category.current.value = res.data?.categoryId;
+      price.current.value = res.data?.price;
+      standCost.current.value = res.data?.standCost;
+      nameProduct.current.value = res.data?.name;
+      description.current.value = res.data?.description;
+    });
+    imageService.getImagesByProductId(param.productId).then((res) => {
+      setImages(res.data);
+    });
   }, [isLoading]);
 
   const handleSubmit = (e) => {
-    var _dataPhone = new FormData();
+    var data = new FormData();
     e.preventDefault();
     const name = document.getElementById("name").value;
+    const description = document.getElementById("description").value;
+    const brand = document.getElementById("brand").value;
     const category = document.getElementById("category").value;
-    const standCost = document.getElementById("standCost").value;
     const price = document.getElementById("price").value;
+    const standCost = document.getElementById("standCost").value;
+
     if (file === null) {
       setFile(() => {
         return fileRef.current.files[0];
       });
     }
-    _dataPhone.append("name", name);
-    _dataPhone.append("brand", Number(brand.current.value));
-    _dataPhone.append("category", category);
-    _dataPhone.append("standCost", standCost);
-    _dataPhone.append("price", price);
-    // async function postData(url = "", data = new FormData()) {
-    //   const response = await fetch(url, {
-    //     method: "PUT",
-    //     redirect: "follow",
-    //     body: data,
-    //   });
-    //   return response;
-    // }
 
-    // postData(baseURL_.data + "/products/" + data.id, _dataPhone).then(
-    //   (data) => {}
-    // );
-    // navigate("/products");
-    console.log(..._dataPhone);
+    function update(input) {
+      productService.updateProduct(param.productId, input).then((res) => {
+        if (res.status === "OK") {
+          const productId = param.productId;
+          var form = new FormData();
+          for (let i = 0; i < arrFile.length; i++) {
+            form.append("image", arrFile[i]);
+          }
+          if (arrFile.length > 0) {
+            imageService.saveImage(form).then((res) => {
+              if (res.status === "OK") {
+                let images = [];
+                for (let i = 0; i < res.data?.length; i++) {
+                  images.push(res.data[i]);
+                }
+                const x = {
+                  path: images,
+                  productId: Number(productId),
+                };
+                imageService.saveList(x).then();
+              }
+            });
+          }
+        }
+      });
+    }
+
+    const postData = () => {
+      var imageForm = new FormData();
+      imageForm.append("image", file);
+      if (file != null) {
+        imageService.saveImage(imageForm).then((response) => {
+          if (response.status === "OK") {
+            const image = response.data[0];
+            const input = {
+              branchId: brand,
+              categoryId: category,
+              description: description,
+              image: image,
+              name: name,
+              price: price,
+              standCost: standCost,
+            };
+            update(input);
+            navigate("/products");
+          }
+        });
+      } else {
+        const input = {
+          branchId: brand,
+          categoryId: category,
+          description: description,
+          image: data?.image,
+          name: name,
+          price: price,
+          standCost: standCost,
+        };
+        update(input);
+        navigate("/products");
+      }
+    };
+    postData();
   };
   return (
     <div className="new">
@@ -86,6 +139,7 @@ const EditProduct = ({ inputs, name }) => {
             <img
               src={"http://localhost:8080/api/v1/user/image/" + data?.image}
               alt=""
+              ref={thumbnail}
             />
           </div>
           <div className="right">
@@ -101,7 +155,9 @@ const EditProduct = ({ inputs, name }) => {
                   ref={fileRef}
                   onChange={(e) => {
                     setFile(e.target.files[0]);
-                    data.img = URL.createObjectURL(e.target.files[0]);
+                    thumbnail.current.src = URL.createObjectURL(
+                      e.target.files[0]
+                    );
                   }}
                   style={{ display: "none" }}
                 />
@@ -114,8 +170,8 @@ const EditProduct = ({ inputs, name }) => {
                       id="name"
                       type="text"
                       placeholder=""
+                      ref={nameProduct}
                       required
-                      value={data.name}
                     />
                   </div>
                   <div className="formInput">
@@ -124,6 +180,7 @@ const EditProduct = ({ inputs, name }) => {
                       id="description"
                       type="text"
                       placeholder=""
+                      ref={description}
                       required
                     />
                   </div>
@@ -161,6 +218,7 @@ const EditProduct = ({ inputs, name }) => {
                       placeholder=""
                       required
                       min="100000"
+                      ref={price}
                     />
                   </div>
                   <div className="formInput">
@@ -171,6 +229,7 @@ const EditProduct = ({ inputs, name }) => {
                       placeholder=""
                       required
                       min="100000"
+                      ref={standCost}
                     />
                   </div>
                 </div>
@@ -182,7 +241,7 @@ const EditProduct = ({ inputs, name }) => {
                     type="file"
                     id="file1"
                     onChange={(e) => {
-                      setFileInput((currentFile) => {
+                      setArrFile((currentFile) => {
                         return [...currentFile, ...e.target.files];
                       });
                     }}
@@ -191,28 +250,32 @@ const EditProduct = ({ inputs, name }) => {
                   />
                 </label>
               </div>
-              {/* <div className="imgcontent flex flex-wrap gap-3">
-                {arrFile.map((img, index) => (
+              <div className="imgcontent flex flex-wrap gap-3">
+                {images.map((img, index) => (
                   <img
-                    src={img}
+                    src={"http://localhost:8080/api/v1/user/image/" + img}
                     alt=""
                     onClick={() => {
                       if (confirm("Bạn có muốn xóa không?")) {
-                        setArrFile((current) => {
+                        setImages((current) => {
                           return current.filter((e) => e !== img);
                         });
+                        imageService.deleteImageByProductId(
+                          img,
+                          param.productId
+                        );
                       }
                     }}
                   />
                 ))}
-                {fileInput.map((item) => {
+                {arrFile.map((item) => {
                   return (
                     <img
                       src={URL.createObjectURL(item)}
                       alt=""
                       onClick={() => {
                         if (confirm("Bạn có muốn xóa không?")) {
-                          setFileInput((currentFile) => {
+                          setArrFile((currentFile) => {
                             return currentFile.filter((e) => e !== item);
                           });
                         }
@@ -220,7 +283,7 @@ const EditProduct = ({ inputs, name }) => {
                     />
                   );
                 })}
-              </div> */}
+              </div>
               <div className="flex gap-4 w-full justify-end px-4 py-2">
                 <input
                   className="flex justify-center items-center bg-[#15a0cf] text-white px-9 py-2 hover:cursor-pointer hover:drop-shadow-md"

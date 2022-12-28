@@ -1,5 +1,6 @@
 import axios from "axios";
 import configAPI from "../../src/api/apiConfig.json";
+import Swal from "sweetalert2";
 
 const login = (username, password) => {
   const data = { phone: username, password };
@@ -22,7 +23,11 @@ const login = (username, password) => {
             }
           );
         } else {
-          alert("Wrong username or password");
+          Swal.fire(
+            "Số điện thoại hoặc mật khẩu không đúng",
+            "Thông báo",
+            "error"
+          );
         }
       } catch {
       } finally {

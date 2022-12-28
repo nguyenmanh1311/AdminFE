@@ -12,13 +12,13 @@ export const UserService = {
   getUser(id) {
     return axiosInstance.get(`${baseURL.data}/user?id=${id}`);
   },
-  removeUser(id) {
-    return axiosInstance.delete(`${baseURL.data}/user/${id}`);
+  getStaff(id) {
+    return axiosInstance.get(`${baseURL.data}/user/admin/${id}`).then((res) => {
+      return res.data;
+    });
   },
-  editUser(id, data) {
-    return axiosInstance.patch(`${baseURL.data}/user/${id}`, data);
-  },
-  addUser(data) {
-    return axiosInstance.post(`${baseURL.data}/user`, data);
+
+  createStaff(data) {
+    return axiosInstance.post(`${baseURL.data}/user/admin/create`, data);
   },
 };

@@ -17,7 +17,6 @@ const Product = () => {
     async function getUser() {
       const res = await UserService.getUser(userId);
       setData(res.data);
-      console.log(data);
     }
     getUser();
   }, []);

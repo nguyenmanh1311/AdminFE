@@ -7,16 +7,23 @@ class CategoryService {
     });
   }
   getCategoryById(id) {
-    return axiosInstance.get(`${baseURL.data}/category/${id}`);
+    return axiosInstance.get(`${baseURL.data}/category/${id}`).then((res) => {
+      return res.data;
+    });
   }
-  getProductByName(name) {
-    return axiosInstance.get(`${baseURL.data}/products/${name}`);
+  deleteCategoryByID(id) {
+    return axiosInstance
+      .delete(`${baseURL.data}/category/${id}`)
+      .then((res) => {
+        return res.data;
+      });
   }
-  deleteProductByID(id) {
-    return axiosInstance.delete(`${baseURL.data}/products/${id}`);
-  }
-  postProduct(product) {
-    return axiosInstance.post(`${baseURL.data}/products${product}`);
+  putCategory(input, id) {
+    return axiosInstance
+      .put(`${baseURL.data}/category/${id}`, input)
+      .then((res) => {
+        return res.data;
+      });
   }
 }
 

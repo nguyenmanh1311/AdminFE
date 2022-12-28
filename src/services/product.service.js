@@ -15,10 +15,19 @@ class ProductService {
     return axiosInstance.get(`${baseURL.data}/products/${name}`);
   }
   deleteProductByID(id) {
-    return axiosInstance.delete(`${baseURL.data}/products/${id}`);
+    return axiosInstance.delete(`${baseURL.data}/product/${id}`);
   }
-  postProduct(product) {
-    return axiosInstance.post(`${baseURL.data}/products${product}`);
+  updateProduct(id, data) {
+    return axiosInstance
+      .put(`${baseURL.data}/product/${id}`, data)
+      .then((res) => {
+        return res.data;
+      });
+  }
+  createNewProduct(data) {
+    return axiosInstance.post(`${baseURL.data}/product`, data).then((res) => {
+      return res.data;
+    });
   }
 }
 

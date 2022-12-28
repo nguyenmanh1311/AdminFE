@@ -214,6 +214,79 @@ export const userColumns = [
   },
 ];
 
+export const staffColumns = [
+  {
+    field: "id",
+    renderHeader: (params) => <strong>ID</strong>,
+    headerAlign: "center",
+    align: "center",
+    flex: 0.4,
+  },
+  {
+    field: "photo",
+    renderHeader: (params) => <strong>Hình ảnh</strong>,
+    headerAlign: "center",
+    sortable: false,
+    renderCell: (params) => {
+      return (
+        <div className="cellWithImg">
+          <img
+            className="cellImg"
+            src={"http://localhost:8080/api/v1/user/image/" + params.row.photo}
+            alt="avatar"
+          />
+        </div>
+      );
+    },
+    align: "center",
+    flex: 0.7,
+  },
+  {
+    field: "fullName",
+    renderHeader: (params) => <strong>Họ tên nhân viên</strong>,
+    sortable: false,
+  },
+  {
+    field: "gender",
+    renderHeader: (params) => <strong>Giới tính</strong>,
+    headerAlign: "center",
+    sortable: false,
+    align: "center",
+  },
+  {
+    field: "dateOfBirth",
+    renderHeader: (params) => <strong>Ngày sinh</strong>,
+    headerAlign: "center",
+    align: "center",
+    flex: 0.8,
+    sortable: false,
+  },
+  {
+    field: "phone",
+    renderHeader: (params) => <strong>Số điện thoại</strong>,
+    headerAlign: "center",
+    flex: 0.8,
+    align: "center",
+    sortable: false,
+  },
+  {
+    field: "email",
+    renderHeader: (params) => <strong>Email</strong>,
+    headerAlign: "center",
+    width: 150,
+    flex: 0.7,
+    sortable: false,
+  },
+
+  {
+    field: "address",
+    renderHeader: (params) => <strong>Địa chỉ</strong>,
+    headerAlign: "center",
+    sortable: false,
+    flex: 1.7,
+  },
+];
+
 export const reviewProductColumns = [
   {
     field: "id",

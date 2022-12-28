@@ -11,14 +11,12 @@ const CategoriesView = () => {
   const { categoryId } = useParams();
   const dispatch = useDispatch();
   const [product, setProduct] = useState([]);
-  console.log(categoryId);
   useEffect(() => {
     getAllComments(dispatch, categoryId);
     ProductService.getProduct(categoryId).then((res) => setProduct(res.data));
   }, []);
   let getComment = useSelector((state) => state.comments.comment.data);
 
-  console.log(getComment);
   return (
     <div>
       <div>

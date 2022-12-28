@@ -8,30 +8,28 @@ import { userColumns } from "~/datatablesource";
 import { useDispatch, useSelector } from "react-redux";
 import { getUser, getUsers } from "../../redux/user/userApi";
 const UsersView = () => {
-    const { userId } = useParams();
-    const dispatch = useDispatch();
-    console.log(userId);
-    useEffect(() => {
-        getUser(dispatch, userId);
-    }, []);
-    let getUserData = useSelector((state) => state.users.user.data);
+  const { userId } = useParams();
+  const dispatch = useDispatch();
+  useEffect(() => {
+    getUser(dispatch, userId);
+  }, []);
+  let getUserData = useSelector((state) => state.users.user.data);
 
-    return (
-        <div className="list">
-            <div className="listContainer">
-                <Datatable
-                    rows={getUserData}
-                    title=""
-                    productColumns={userColumns}
-                    type="user"
-                />
-            </div>
-        </div>
-    );
+  return (
+    <div className="list">
+      <div className="listContainer">
+        <Datatable
+          rows={getUserData}
+          title=""
+          productColumns={userColumns}
+          type="user"
+        />
+      </div>
+    </div>
+  );
 };
 
 export default UsersView;
-
 
 // import "./single.scss";
 // import { useState, useEffect } from "react";
@@ -53,7 +51,6 @@ export default UsersView;
 //         async function getUser() {
 //             const res = await UserService.getUser(userId);
 //             setData(res.data);
-//             console.log(data);
 //         }
 //         getUser();
 //     }, []);
@@ -280,5 +277,3 @@ export default UsersView;
 // };
 
 // export default User;
-
-

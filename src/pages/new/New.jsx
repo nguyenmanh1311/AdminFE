@@ -32,16 +32,11 @@ const New = ({ inputs, title }) => {
     sex: gender,
   };
 
-  console.log(dataPost);
-
   const handleSubmitForm = (e) => {
     e.preventDefault();
     try {
       UserService.addUser(dataPost);
-      console.log("Add user success");
-    } catch (err) {
-      console.log(err);
-    }
+    } catch (err) {}
   };
   return (
     <div className="new">
