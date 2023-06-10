@@ -22,60 +22,31 @@ const NewStaff = ({ title }) => {
     const birthday = document.getElementById("birthday").value;
     const phone = document.getElementById("phone").value;
     const email = document.getElementById("email").value;
+    let password = document.getElementById("password").value;
 
-    const postData = () => {
-      var imageForm = new FormData();
-      imageForm.append("image", file);
-      if (file != null) {
-        imageService.saveImage(imageForm).then((response) => {
-          if (response.status === "OK") {
-            const image = response.data[0];
-            const input = {
-              fullName: fullname,
-              gender: gender,
-              dateOfBirth: birthday,
-              phone: phone,
-              photo: image,
-              email: email,
-            };
-            UserService.createStaff(input).then((res) => {
-              if (res.data.status === "OK") {
-                navigate("/staffs");
-              }
-              if (res.data.status === "NOT_FOUND") {
-                Swal.fire(
-                  "Thông báo",
-                  "Số điện thoại hoặc email đã được sử dụng.",
-                  "warning"
-                );
-              }
-            });
-          }
-        });
-      } else {
-        const input = {
-          fullName: fullname,
-          gender: gender,
-          dateOfBirth: birthday,
-          phone: phone,
-          photo: "staff.png",
-          email: email,
-        };
-        UserService.createStaff(input).then((res) => {
-          if (res.data.status === "OK") {
-            navigate("/staffs");
-          }
-          if (res.data.status === "NOT_FOUND") {
-            Swal.fire(
-              "Thông báo",
-              "Số điện thoại hoặc email đã được sử dụng.",
-              "warning"
-            );
-          }
-        });
-      }
+    if (password.length === 0) {
+      password = "123456a@";
+    }
+    const input = {
+      fullName: fullname,
+      gender: gender,
+      dateOfBirth: birthday,
+      phone_number: phone,
+      email: email,
+      role: 2,
+      password: password,
     };
-    postData();
+    UserService.createStaff(input).then((res) => {
+      if (res.data.status_code === 200) {
+        navigate("/staffs");
+      } else {
+        Swal.fire(
+          "Thông báo",
+          "Số điện thoại hoặc email đã được sử dụng.",
+          "warning"
+        );
+      }
+    });
   };
   return (
     <div className="new">
@@ -84,7 +55,7 @@ const NewStaff = ({ title }) => {
           <h1>{title}</h1>
         </div>
         <div className="bottom">
-          <div className="left">
+          {/* <div className="left">
             <img
               src={
                 file
@@ -93,7 +64,7 @@ const NewStaff = ({ title }) => {
               }
               alt=""
             />
-          </div>
+          </div> */}
           <div className="right">
             <form onSubmit={handleSubmit}>
               <div className="formInput">
@@ -132,9 +103,10 @@ const NewStaff = ({ title }) => {
                   <label>Ngày sinh</label>
                   <DatePicker
                     id="birthday"
+                    dateFormat="dd-MM-yyyy"
                     selected={startDate}
                     required
-                    // onChange={(date) => setStartDate(date)}
+                    onChange={(date) => setStartDate(date)}
                   />
                 </div>
                 <div className="formInput">
@@ -153,6 +125,14 @@ const NewStaff = ({ title }) => {
                     type="email"
                     placeholder="Ví dụ: anara@gmail.com"
                     required
+                  />
+                </div>
+                <div className="formInput">
+                  <label>Mật khẩu</label>
+                  <input
+                    id="password"
+                    type="text"
+                    placeholder="Ví dụ: 123456a@"
                   />
                 </div>
               </div>

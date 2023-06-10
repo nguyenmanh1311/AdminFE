@@ -2,7 +2,6 @@ import "./login.scss";
 import React, { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import logo from "../../assets/logo/baloshop-w.png";
-import swal2 from "sweetalert2";
 import { AuthService } from "../../services/auth.service";
 
 const Login = () => {
@@ -14,38 +13,19 @@ const Login = () => {
   const [passwordLogin, setPasswordLogin] = useState("");
 
   const navigate = useNavigate();
-  const loginOnclick = async () => {
-    await AuthService.login(usernameLogin, passwordLogin).then((response) => {
-      if (
-        response.status === "UNAUTHORIZED" ||
-        response.status === "BAD_REQUEST"
-      ) {
-        swal2.fire(
-          "Thông báo",
-          "Thông tin đăng nhập không chính xác!",
-          "warning"
-        );
-      }
-      try {
-        if (!response.data.enable) {
-          {
-            localStorage.clear();
-            swal2.fire("Thông báo", "Tài khoản đã dừng hoạt động!", "error");
-          }
-        }
-      } catch (error) {}
-
+  const loginOnclick = () => {
+    AuthService.login(usernameLogin, passwordLogin).then((response) => {
       if (localStorage.getItem("accessToken")) {
         navigate("/");
       }
     });
   };
 
-  const login = () => {
-    loginRef.current.style.left = "50px";
-    registerRef.current.style.left = "450px";
-    btnRef.current.style.left = "0";
-  };
+  // const login = () => {
+  //   loginRef.current.style.left = "50px";
+  //   registerRef.current.style.left = "450px";
+  //   btnRef.current.style.left = "0";
+  // };
   return (
     <div>
       <div className="hero">
@@ -58,7 +38,7 @@ const Login = () => {
             <input
               type="text"
               className="input-field"
-              placeholder="Nhập số điện thoại "
+              placeholder="Nhập số điện thoại"
               required
               onChange={(event) => {
                 setUsernameLogin(event.target.value);

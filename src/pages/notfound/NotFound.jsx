@@ -4,11 +4,11 @@ const NotFound = () => {
   document.title = "Không tìm thấy trang";
 
   return (
-    <div class="container">
+    <div className="container">
       <h1>Trang không tìm thấy</h1>
       <h1>
         {" "}
-        <span class="ascii">(╯°□°）╯︵ ┻━┻</span>
+        <span className="ascii">(╯°□°）╯︵ ┻━┻</span>
       </h1>
       <Link to="/">Go back</Link>
     </div>

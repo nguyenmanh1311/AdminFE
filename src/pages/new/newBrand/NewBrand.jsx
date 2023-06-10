@@ -1,36 +1,32 @@
 import "../new.scss";
-import { axiosInstance, baseURL_ } from "../../../api/axios.config";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import brandService from "../../../services/brand.service";
+import swal2 from "sweetalert2";
 
 const NewBrand = ({ inputs, title }) => {
   document.title = "Thêm thương hiệu mới";
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
+    e.preventDefault();
+
     const name = document.getElementById("name").value;
     const description = document.getElementById("description").value;
-    var data = JSON.stringify({
-      name: name,
-      description: description,
-    });
 
-    var config = {
-      method: "post",
-      url: baseURL_.data + "/brand",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      data: data,
-    };
+    const postData = () => {
+      const input = {
+        name: name,
+        description: description,
+      };
 
-    axios(config)
-      .then(function (response) {
-        if (response.data.status === "OK") {
+      brandService.createNewBrand(input).then((res) => {
+        if (res.status_code === 200) {
+          swal2.fire("Thông báo", "Thêm thương hiệu thành công", "success");
           navigate("/brands");
         }
-      })
-      .catch(function (error) {});
+      });
+    };
+    postData();
   };
 
   return (
@@ -40,14 +36,14 @@ const NewBrand = ({ inputs, title }) => {
           <h1>{title}</h1>
         </div>
         <div className="bottom">
-          <div className="left">
+          {/* <div className="left">
             <img
               src={
                 "https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg"
               }
               alt=""
             />
-          </div>
+          </div> */}
           <div className="right">
             <div>
               <div className="flex gap-4">

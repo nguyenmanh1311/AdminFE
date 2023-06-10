@@ -1,12 +1,10 @@
 import "./datatable.scss";
 import { DataGrid } from "@mui/x-data-grid";
 import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
 import Switch from "react-js-switch";
-import { Triangle } from "react-bootstrap-icons";
 import { UserService } from "../../services/user.service";
 
-const UserDatatable = ({ rows, title, userColumns }) => {
+const StaffDatabase = ({ rows, title, userColumns }) => {
   const handleDelete = (id) => {
     setData(data.filter((item) => item.id !== id));
   };
@@ -18,7 +16,7 @@ const UserDatatable = ({ rows, title, userColumns }) => {
   const navigate = useNavigate();
   const enableColumn = [
     {
-      field: "enable",
+      field: "status",
       renderHeader: (params) => <strong>Trạng thái</strong>,
       headerAlign: "center",
       sortable: false,
@@ -30,7 +28,7 @@ const UserDatatable = ({ rows, title, userColumns }) => {
           return (
             <div>
               <Switch
-                initialValue={params.row.enable}
+                initialValue={params.row.status === 2 ? true : false}
                 onChange={() => {
                   onchange(params.row.id);
                 }}
@@ -77,14 +75,23 @@ const UserDatatable = ({ rows, title, userColumns }) => {
     <div className="datatable">
       <div className="flex justify-between mb-3">
         <div className="font-semibold text-[24px]">Quản lý {title}</div>
+        <div
+          onClick={() => {
+            navigate("/staffs/new");
+          }}
+          className="bg-blue-500 text-white w-[200px] rounded-md p-2 flex justify-center items-center cursor-pointer hover:drop-shadow-md transition-all duration-200"
+        >
+          Thêm mới
+        </div>
       </div>
 
       <DataGrid
         className="datagrid"
         rows={rows}
         columns={userColumns.concat(enableColumn)}
-        pageSize={9}
-        rowsPerPageOptions={[9]}
+        // pageSize={9}
+        // rowsPerPageOptions={[9]}
+        hideFooter={true}
         sx={{
           ".MuiDataGrid-columnSeparator": {
             display: "none",
@@ -103,4 +110,4 @@ const UserDatatable = ({ rows, title, userColumns }) => {
   );
 };
 
-export default UserDatatable;
+export default StaffDatabase;

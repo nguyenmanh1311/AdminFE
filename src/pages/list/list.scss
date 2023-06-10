@@ -3,5 +3,50 @@
   width: 100%;
   .listContainer {
     flex: 6;
+
+    .page-item:first-child .page-link {
+      border-top-left-radius: 0.25rem;
+      border-bottom-left-radius: 0.25rem;
+    }
+
+    .page-item:last-child .page-link {
+      border-top-right-radius: 0.25rem;
+      border-bottom-right-radius: 0.25rem;
+    }
+
+    .page-item.active .page-link {
+      color: #fff;
+      background: linear-gradient(to right, #dc3545, #f27474);
+      border: 1px solid rgb(255, 0, 0);
+    }
+
+    .page-item.disabled .page-link {
+      color: rgb(255, 0, 0);
+      background: rgba(255, 87, 34, 0.1);
+      border: 1px solid rgb(255, 0, 0);
+    }
+
+    .page-link {
+      padding: 0.5rem 0.75rem;
+      line-height: 1.25;
+      color: rgb(255, 0, 0);
+      border: 1px solid rgb(255, 0, 0);
+    }
+
+    .page-link:hover,
+    .page-link:focus {
+      color: orangered;
+      text-decoration: none;
+      background-color: #e9ecef;
+      border: 1px solid rgb(255, 0, 0);
+      outline: none;
+      box-shadow: none;
+    }
+
+    .pagination-item {
+      display: flex;
+      justify-content: center;
+      list-style: none;
+    }
   }
 }

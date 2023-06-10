@@ -1,14 +1,16 @@
 import React, { useState } from "react";
+import logo from "./assets/avatar.jpg";
+
 export const productColumns = [
   {
-    field: "id",
-    renderHeader: (params) => <strong>ID</strong>,
+    field: "index",
+    renderHeader: (params) => <strong>STT</strong>,
     headerAlign: "center",
     align: "center",
     flex: 0.4,
   },
   {
-    field: "image",
+    field: "product_images",
     renderHeader: (params) => <strong>Hình ảnh</strong>,
     headerAlign: "center",
     align: "center",
@@ -18,7 +20,11 @@ export const productColumns = [
         <div className="cellWithImg">
           <img
             className="cellImg"
-            src={"http://localhost:8080/api/v1/user/image/" + params.row.image}
+            src={
+              params?.row.product_images
+                ? "https://" + params?.row.product_images[0]?.uri
+                : logo
+            }
             alt="avatar"
           />
         </div>
@@ -29,7 +35,7 @@ export const productColumns = [
     field: "name",
     renderHeader: (params) => <strong>Tên sản phẩm</strong>,
     headerAlign: "center",
-    flex: 2,
+    flex: 1.5,
   },
   {
     field: "brandName",
@@ -39,21 +45,21 @@ export const productColumns = [
     flex: 0.8,
   },
   {
-    field: "cateName",
+    field: "categoryName",
     renderHeader: (params) => <strong>Thể loại</strong>,
     headerAlign: "center",
     align: "center",
     flex: 1,
   },
   {
-    field: "price",
+    field: "Price",
     renderHeader: (params) => <strong>Giá bán</strong>,
     headerAlign: "center",
     align: "center",
     flex: 0.6,
   },
   {
-    field: "standCost",
+    field: "stand_cost",
     renderHeader: (params) => <strong>Giá nhập</strong>,
     headerAlign: "center",
     align: "center",
@@ -66,6 +72,7 @@ export const productColumns = [
     flex: 2,
   },
 ];
+
 export const commentColumns = [
   { field: "id", headerName: "IdComment", headerAlign: "center", width: 70 },
 
@@ -124,17 +131,18 @@ export const commentColumns = [
     width: 100,
   },
 ];
+
 export const userColumns = [
   {
-    field: "id",
-    renderHeader: (params) => <strong>ID</strong>,
+    field: "index",
+    renderHeader: () => <strong>STT</strong>,
     headerAlign: "center",
     align: "center",
     flex: 0.4,
   },
   {
-    field: "photo",
-    renderHeader: (params) => <strong>Hình ảnh</strong>,
+    field: "avatar",
+    renderHeader: () => <strong>Hình ảnh</strong>,
     headerAlign: "center",
     sortable: false,
     renderCell: (params) => {
@@ -142,88 +150,57 @@ export const userColumns = [
         <div className="cellWithImg">
           <img
             className="cellImg"
-            src={"http://localhost:8080/api/v1/user/image/" + params.row.photo}
+            src={params.row.avatar ? "https://" + params.row.avatar : logo}
             alt="avatar"
           />
         </div>
       );
     },
     align: "center",
+    flex: 0.5,
+  },
+  {
+    field: "fullname",
+    renderHeader: () => <strong>Họ tên khách hàng</strong>,
+    sortable: false,
+    flex: 1,
+  },
+  {
+    field: "phone_number",
+    renderHeader: () => <strong>Số điện thoại</strong>,
+    headerAlign: "center",
     flex: 0.7,
-  },
-  {
-    field: "fullName",
-    renderHeader: (params) => <strong>Họ tên khách hàng</strong>,
-    sortable: false,
-  },
-  {
-    field: "gender",
-    renderHeader: (params) => <strong>Giới tính</strong>,
-    headerAlign: "center",
-    sortable: false,
-    align: "center",
-  },
-  {
-    field: "dateOfBirth",
-    renderHeader: (params) => <strong>Ngày sinh</strong>,
-    headerAlign: "center",
-    align: "center",
-    flex: 0.8,
-    sortable: false,
-  },
-  {
-    field: "phone",
-    renderHeader: (params) => <strong>Số điện thoại</strong>,
-    headerAlign: "center",
-    flex: 0.8,
     align: "center",
     sortable: false,
   },
   {
     field: "email",
-    renderHeader: (params) => <strong>Email</strong>,
+    renderHeader: () => <strong>Email</strong>,
     headerAlign: "center",
     width: 150,
-    flex: 0.7,
+    flex: 1.4,
     sortable: false,
   },
 
-  {
-    field: "address",
-    renderHeader: (params) => <strong>Địa chỉ</strong>,
-    headerAlign: "center",
-    sortable: false,
-    flex: 1.7,
-    // valueGetter: (params) => {
-    //   let result = [];
-    //   if (params.row.address) {
-    //     result.push(
-    //       params.row.address.homeAdd +
-    //         ", " +
-    //         params.row.address.ward +
-    //         ", " +
-    //         params.row.address.district +
-    //         ", " +
-    //         params.row.address.city
-    //     );
-    //   } else {
-    //     result = ["Unknown"];
-    //   }
-    //   return result.join(", ");
-    // },
-  },
+  // {
+  //   field: "address",
+  //   renderHeader: () => <strong>Địa chỉ</strong>,
+  //   headerAlign: "center",
+  //   sortable: false,
+  //   flex: 2,
+  // },
 ];
 
 export const staffColumns = [
   {
-    field: "id",
-    renderHeader: (params) => <strong>ID</strong>,
+    field: "index",
+    renderHeader: (params) => <strong>STT</strong>,
     headerAlign: "center",
     align: "center",
     flex: 0.4,
   },
   {
-    field: "photo",
+    field: "avatar",
     renderHeader: (params) => <strong>Hình ảnh</strong>,
     headerAlign: "center",
     sortable: false,
@@ -232,40 +209,41 @@ export const staffColumns = [
         <div className="cellWithImg">
           <img
             className="cellImg"
-            src={"http://localhost:8080/api/v1/user/image/" + params.row.photo}
+            src={params.row.avatar ? "https://" + params.row.avatar : logo}
             alt="avatar"
           />
         </div>
       );
     },
     align: "center",
-    flex: 0.7,
+    flex: 0.5,
   },
   {
-    field: "fullName",
+    field: "fullname",
     renderHeader: (params) => <strong>Họ tên nhân viên</strong>,
     sortable: false,
+    flex: 1,
   },
+  // {
+  //   field: "gender",
+  //   renderHeader: (params) => <strong>Giới tính</strong>,
+  //   headerAlign: "center",
+  //   sortable: false,
+  //   align: "center",
+  // },
+  // {
+  //   field: "dateOfBirth",
+  //   renderHeader: (params) => <strong>Ngày sinh</strong>,
+  //   headerAlign: "center",
+  //   align: "center",
+  //   flex: 0.8,
+  //   sortable: false,
+  // },
   {
-    field: "gender",
-    renderHeader: (params) => <strong>Giới tính</strong>,
+    field: "phone_number",
+    renderHeader: () => <strong>Số điện thoại</strong>,
     headerAlign: "center",
-    sortable: false,
-    align: "center",
-  },
-  {
-    field: "dateOfBirth",
-    renderHeader: (params) => <strong>Ngày sinh</strong>,
-    headerAlign: "center",
-    align: "center",
-    flex: 0.8,
-    sortable: false,
-  },
-  {
-    field: "phone",
-    renderHeader: (params) => <strong>Số điện thoại</strong>,
-    headerAlign: "center",
-    flex: 0.8,
+    flex: 0.7,
     align: "center",
     sortable: false,
   },
@@ -274,23 +252,23 @@ export const staffColumns = [
     renderHeader: (params) => <strong>Email</strong>,
     headerAlign: "center",
     width: 150,
-    flex: 0.7,
+    flex: 1.4,
     sortable: false,
   },
 
-  {
-    field: "address",
-    renderHeader: (params) => <strong>Địa chỉ</strong>,
-    headerAlign: "center",
-    sortable: false,
-    flex: 1.7,
-  },
+  // {
+  //   field: "address",
+  //   renderHeader: (params) => <strong>Địa chỉ</strong>,
+  //   headerAlign: "center",
+  //   sortable: false,
+  //   flex: 1.7,
+  // },
 ];
 
 export const reviewProductColumns = [
   {
     field: "id",
-    headerName: "ID",
+    headerName: "STT",
     headerAlign: "center",
     width: 70,
     renderCell: (params) => {
@@ -334,15 +312,15 @@ export const reviewProductColumns = [
 
 export const brandColumns = [
   {
-    field: "id",
-    renderHeader: (params) => <strong>ID</strong>,
+    field: "index",
+    renderHeader: () => <strong>STT</strong>,
     headerAlign: "center",
     align: "center",
     flex: 0.4,
   },
   {
     field: "name",
-    renderHeader: (params) => <strong>Tên thương hiệu</strong>,
+    renderHeader: () => <strong>Tên thương hiệu</strong>,
     headerAlign: "center",
     align: "center",
     flex: 1.1,
@@ -359,7 +337,7 @@ export const brandColumns = [
 export const reviewDetailColumns = [
   {
     field: "id",
-    headerName: "ID",
+    headerName: "STT",
     headerAlign: "center",
     width: 70,
     renderCell: (params) => {
@@ -393,10 +371,152 @@ export const reviewDetailColumns = [
     width: 230,
   },
 ];
+
+export const orderColumns = [
+  {
+    field: "index",
+    renderHeader: (params) => <strong>STT</strong>,
+    headerAlign: "center",
+    align: "center",
+    flex: 0.2,
+  },
+  {
+    field: "fullname",
+    renderHeader: (params) => <strong>Tên khách hàng</strong>,
+    headerAlign: "center",
+    align: "center",
+    flex: 0.7,
+  },
+
+  {
+    field: "totalPrice",
+    renderHeader: (params) => <strong>Tổng giá</strong>,
+    headerAlign: "center",
+    align: "center",
+    flex: 0.5,
+  },
+
+  {
+    field: "createdDate",
+    renderHeader: (params) => <strong>Ngày đặt mua</strong>,
+    headerAlign: "center",
+    align: "center",
+    flex: 0.6,
+  },
+
+  {
+    field: "payment_method",
+    renderHeader: (params) => <strong>Phương thức thanh toán</strong>,
+    headerAlign: "center",
+    align: "center",
+    flex: 1,
+    renderCell: (params) => {
+      const value = params.value;
+      let modifiedValue = value;
+
+      if (value === 0) {
+        modifiedValue = "MOMO";
+      } else if (value === 1) {
+        modifiedValue = "Ngân hàng";
+      } else if (value === 3) {
+        modifiedValue = "COD";
+      }
+
+      return <div>{modifiedValue}</div>;
+    },
+  },
+  {
+    field: "is_payment",
+    renderHeader: (params) => <strong>Trạng thái thanh toán</strong>,
+    headerAlign: "center",
+    align: "center",
+    flex: 1,
+    renderCell: (params) => {
+      const value = params.value;
+      let modifiedValue = value;
+
+      if (value === false) {
+        modifiedValue = "Chưa thanh toán";
+      } else if (value === true) {
+        modifiedValue = "Đã thanh toán";
+      }
+
+      return <div>{modifiedValue}</div>;
+    },
+  },
+
+  // {
+  //   field: "interest",
+  //   renderHeader: (params) => <strong>Tương tác</strong>,
+  //   headerAlign: "center",
+  //   flex: 0.8,
+  // },
+];
+
+export const newColumns = [
+  {
+    field: "index",
+    renderHeader: (params) => <strong>STT</strong>,
+    headerAlign: "center",
+    align: "center",
+    flex: 0.2,
+  },
+  {
+    field: "post_images",
+    renderHeader: (params) => <strong>Hình ảnh</strong>,
+    headerAlign: "center",
+    align: "center",
+    flex: 0.7,
+    renderCell: (params) => {
+      return (
+        <div className="cellWithImg">
+          <img
+            className="cellImg"
+            src={
+              params?.row.post_images
+                ? "https://" + params?.row.post_images[0]?.uri
+                : logo
+            }
+            alt="avatar"
+          />
+        </div>
+      );
+    },
+  },
+  {
+    field: "title",
+    renderHeader: (params) => <strong>Tiêu đề</strong>,
+    headerAlign: "center",
+    align: "center",
+    flex: 0.7,
+  },
+  {
+    field: "createdDate",
+    renderHeader: (params) => <strong>Ngày tạo</strong>,
+    headerAlign: "center",
+    align: "center",
+    flex: 0.5,
+  },
+  {
+    field: "creatorName",
+    renderHeader: (params) => <strong>Người tạo</strong>,
+    headerAlign: "center",
+    align: "center",
+    flex: 0.5,
+  },
+  {
+    field: "editorName",
+    renderHeader: (params) => <strong>Người chỉnh sửa cuối</strong>,
+    headerAlign: "center",
+    align: "center",
+    flex: 0.5,
+  },
+];
+
 export const categoryColumns = [
   {
-    field: "id",
-    renderHeader: () => <strong>ID</strong>,
+    field: "index",
+    renderHeader: () => <strong>STT</strong>,
     headerAlign: "center",
     align: "center",
     flex: 0.4,

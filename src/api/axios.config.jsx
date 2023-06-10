@@ -1,10 +1,5 @@
 import axios from "axios";
 
-// const baseURL = {
-// 	auth: "https://jwtoken.glitch.me",
-// 	data: "http://localhost:8080/api/v1",
-// };
-
 const baseURL = {
   auth: "http://localhost:8080/api/v1",
   data: "http://localhost:8080/api/v1",
@@ -16,10 +11,10 @@ export const baseURL_ = {
 };
 
 const axiosInstance = axios.create({
-  headers: {
-    "content-type": "application/json",
-  },
-  //withCredentials: true,
+  // headers: {
+  //   "Content-Type": "application/json",
+  // },
+  // //withCredentials: true,
 });
 
 axiosInstance.interceptors.request.use(

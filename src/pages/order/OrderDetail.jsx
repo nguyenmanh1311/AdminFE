@@ -4,123 +4,118 @@ import { axiosInstance } from "../../api/axios.config";
 import "./table.scss";
 import { useState } from "react";
 import { useRef } from "react";
-import { UserService } from "../../services/user.service";
 import { OrderService } from "../../services/order.service";
 import { useEffect } from "react";
+import { useParams } from "react-router-dom";
 
-//Trả order, ordeerr detail
-function OrderDetail(props) {
-  //userId, addressId, id
-
+const OrderDetail = (props) => {
+  const param = useParams();
   const [orderItems, setOrderItem] = useState([]);
 
-  const shipId = useRef();
-  const amountPaid = props.totalPrice;
-  const surcharge = 0;
   const style = (text) => {
     switch (text) {
-      case "Đã đặt hàng":
-      case "Đang chuẩn bị hàng":
+      case 1:
         return "text-yellow-400 font-bold";
-      case "Đang giao hàng":
+      case 2:
         return "text-blue-400 font-bold";
-      case "Đã hủy":
-        return "text-red-400 font-bold";
-      case "Đã xác nhận":
+      case 3:
         return "text-green-400 font-bold";
+      case 4:
+        return "text-red-400 font-bold";
     }
   };
 
   const fetchData = () => {
-    OrderService.getAllOrderDetailByOrderId(props.id).then((res) => {
-      setOrderItem(res.data.data);
+    OrderService.getDetailOrderById(param.orderId).then((res) => {
+      setOrderItem(res.data);
     });
   };
 
   useEffect(() => {
-    async function getAllOrder() {
-      await OrderService.getAllOrder().then((res) => {
-        setOrderItem(res.data.data);
-      });
-    }
-    getAllOrder();
     fetchData();
   }, []);
 
   return (
-    <div>
-      <div className="p-8 border-b">
-        <div className="flex justify-between">
-          <h2 className="font-bold text-l">Chi tiết đơn hàng: #{props.id}</h2>
+    <div className="new">
+      <div className="newContainer">
+        <div className="p-8 border-b">
+          <div className="flex justify-center">
+            <h2 className="font-bold text-3xl">Chi tiết đơn hàng:</h2>
+          </div>
           <p className="text-l">
             <span className="font-bold">Trạng thái: </span>
-            <span className={style(props.status)}>{props.status}</span>
+            {orderItems.status && (
+              <span className={style(orderItems.status)}>
+                {orderItems.status === 1 && "Đang chờ xác nhận"}
+                {orderItems.status === 2 && "Đang chuẩn bị hàng"}
+                {orderItems.status === 3 && "Hoàn thành"}
+                {orderItems.status === 4 && "Đã hủy"}
+              </span>
+            )}
           </p>
         </div>
-      </div>
 
-      <div className="table-responsive">
-        <table className="table">
-          <thead>
-            <th>ID</th>
-            <th>Tên sản phẩm</th>
-            <th>Hình ảnh</th>
-            <th>Số lượng</th>
-            <th>Đơn giá</th>
-            <th>Tổng tiền</th>
-          </thead>
-          {orderItems.map((item) => {
-            return (
-              <>
-                <tbody>
-                  <td>{item.id}</td>
-                  <td>{item.productName}</td>
-                  <td className="flex justify-center items-center">
-                    <img
-                      width={"30"}
-                      className="object-cover rounded-2xl"
-                      src={
-                        "http://localhost:8080/api/v1/image_product/" +
-                        item.productImage
-                      }
-                      alt=""
-                    />
-                  </td>
+        <div className="table-responsive">
+          <table className="table">
+            <thead>
+              <th>Tên sản phẩm</th>
+              <th>Hình ảnh</th>
+              <th>Số lượng</th>
+              <th>Đơn giá</th>
+              <th>Tổng tiền</th>
+            </thead>
+            {orderItems?.invoice_details?.map((item) => {
+              return (
+                <>
+                  <tbody>
+                    <td>{item?.product?.name}</td>
+                    <td className="flex justify-center items-center">
+                      <img
+                        width={"100"}
+                        className="object-cover rounded-2xl"
+                        src={"https://" + item.product?.product_images[0].uri}
+                        alt=""
+                      />
+                    </td>
 
-                  <td>{item.quantity}</td>
-                  <td>{numberWithCommas(item.price)}₫</td>
-                  <td>{numberWithCommas(item.price * item.quantity)}₫</td>
-                </tbody>
-              </>
-            );
-          })}
-        </table>
-      </div>
-      <div className="text-left border-b p-4 text-l leading-[40px]">
-        <p className="flex">
-          <span className="font-bold">Tổng tiền: </span>
-          <span className="text-red-500 ml-2">
-            {numberWithCommas(props.grandTotal)}₫
-          </span>
-        </p>
-      </div>
-      <div className="text-left p-4 text-l leading-[40px] gap-2 ">
-        <div>
-          <p className="font-bold text-l">
-            Địa chỉ và thông tin người nhận hàng
-          </p>
-          <ul>
-            <li>Họ và tên: {props.address?.fullName}</li>
-            <li>Số điện thoại: {props.address?.phone}</li>
-            <li>
-              Địa chỉ nhận hàng: {props.address?.addressLine},{" "}
-              {props.address?.ward}, {props.address?.district},{" "}
-              {props.address?.province}
-            </li>
-          </ul>
+                    <td>{item.quantity}</td>
+                    <td>{numberWithCommas(item?.product?.price)}₫</td>
+                    <td>
+                      {numberWithCommas(item?.product?.price * item?.quantity)}₫
+                    </td>
+                  </tbody>
+                </>
+              );
+            })}
+          </table>
         </div>
-      </div>
-      {/* <div className="flex justify-center items-center flex-wrap">
+        <div className="text-left border-b p-4 text-l leading-[40px]">
+          <p className="flex">
+            <span className="font-bold">Phí vận chuyển: </span>
+            <span className="text-red-500 ml-2 font-bold">
+              {numberWithCommas(orderItems?.shipping_fee)}₫
+            </span>
+          </p>
+          <p className="flex text-2xl">
+            <span className="font-bold">Thành tiền: </span>
+            <span className="text-red-500 ml-2 font-bold">
+              {numberWithCommas(orderItems?.total)}₫
+            </span>
+          </p>
+        </div>
+        <div className="text-left p-4 text-l leading-[40px] gap-2 ">
+          <div>
+            <p className="font-bold text-l">
+              Địa chỉ và thông tin người nhận hàng
+            </p>
+            <ul>
+              <li>Họ và tên: {orderItems?.fullname}</li>
+              <li>Số điện thoại: {orderItems?.phone_number}</li>
+              <li>Địa chỉ nhận hàng: {orderItems?.address}</li>
+            </ul>
+          </div>
+        </div>
+        {/* <div className="flex justify-center items-center flex-wrap">
           {props.status === "Đặt hàng" && (
             <div className="flex gap-2">
               <p className="mt-1 mr-1">Chọn Shipper:</p>
@@ -176,8 +171,9 @@ function OrderDetail(props) {
               </button>
             )}
         </div> */}
+      </div>
     </div>
   );
-}
+};
 
 export default OrderDetail;

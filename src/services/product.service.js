@@ -1,33 +1,40 @@
 import { axiosInstance, baseURL } from "~/api/axios.config";
+import configApi from "../api/apiConfig.json";
 
 class ProductService {
-  getAllProducts() {
-    return axiosInstance.get(`${baseURL.data}/product/all`).then((res) => {
-      return res.data;
-    });
+  getAllProducts(data) {
+    return axiosInstance
+      .get(configApi.baseUrlApiAdmin + "/product", { params: data })
+      .then((res) => {
+        return res.data;
+      });
   }
   getProductById(id) {
-    return axiosInstance.get(`${baseURL.data}/product/${id}`).then((res) => {
-      return res.data;
-    });
+    return axiosInstance
+      .get(configApi.baseUrlApiAdmin + `/product/${id}`)
+      .then((res) => {
+        return res.data;
+      });
   }
   getProductByName(name) {
-    return axiosInstance.get(`${baseURL.data}/products/${name}`);
+    return axiosInstance.get(configApi.baseUrlApiAdmin + `/products/${name}`);
   }
   deleteProductByID(id) {
-    return axiosInstance.delete(`${baseURL.data}/product/${id}`);
+    return axiosInstance.delete(configApi.baseUrlApiAdmin + `/product/${id}`);
   }
   updateProduct(id, data) {
     return axiosInstance
-      .put(`${baseURL.data}/product/${id}`, data)
+      .put(configApi.baseUrlApiAdmin + `/product/${id}`, data)
       .then((res) => {
         return res.data;
       });
   }
   createNewProduct(data) {
-    return axiosInstance.post(`${baseURL.data}/product`, data).then((res) => {
-      return res.data;
-    });
+    return axiosInstance
+      .post(configApi.baseUrlApiAdmin + `/product`, data)
+      .then((res) => {
+        return res.data;
+      });
   }
 }
 

@@ -1,26 +1,38 @@
 import { axiosInstance, baseURL } from "~/api/axios.config";
+import configAPI from "../api/apiConfig.json";
 
 class CategoryService {
   getAllCategory() {
-    return axiosInstance.get(`${baseURL.data}/category`).then((res) => {
-      return res.data;
-    });
+    return axiosInstance
+      .get(configAPI.baseUrlApiAdmin + "/category")
+      .then((res) => {
+        return res.data;
+      });
   }
   getCategoryById(id) {
-    return axiosInstance.get(`${baseURL.data}/category/${id}`).then((res) => {
-      return res.data;
-    });
+    return axiosInstance
+      .get(configAPI.baseUrlApiAdmin + `/category/${id}`)
+      .then((res) => {
+        return res.data;
+      });
   }
   deleteCategoryByID(id) {
     return axiosInstance
-      .delete(`${baseURL.data}/category/${id}`)
+      .delete(configAPI.baseUrlApiAdmin + `/category/${id}`)
       .then((res) => {
         return res.data;
       });
   }
   putCategory(input, id) {
     return axiosInstance
-      .put(`${baseURL.data}/category/${id}`, input)
+      .patch(configAPI.baseUrlApiAdmin + `/category/${id}`, input)
+      .then((res) => {
+        return res.data;
+      });
+  }
+  createNewCategory(data) {
+    return axiosInstance
+      .post(configAPI.baseUrlApiAdmin + `/category`, data)
       .then((res) => {
         return res.data;
       });

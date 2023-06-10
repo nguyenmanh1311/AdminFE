@@ -1,21 +1,29 @@
+import configAPI from "../api/apiConfig.json";
 import { axiosInstance, baseURL } from "~/api/axios.config";
 
 class StatisticService {
-  getAmountSixMonth() {
-    return axiosInstance.get(
-      `${baseURL.data}/statistical/seven_day_recent_line_chart`
-    );
-  }
-  getAmountSixMonthInvoice() {
-    return axiosInstance.get(
-      `${baseURL.data}/statistical/seven_day_recent_line_chart_invoice`
-    );
-  }
-  //   getProfit() {
-  //     return axiosInstance.get(`${baseURL.data}/statistic/profit`);
-  //   }
   getAllAmount() {
-    return axiosInstance.get(`${baseURL.data}/statistical`);
+    return axiosInstance
+      .get(configAPI.baseUrlApiAdmin + "/statistic")
+      .then((res) => {
+        return res.data;
+      });
+  }
+
+  getStaticInvoice() {
+    return axiosInstance
+      .get(configAPI.baseUrlApiAdmin + "/statistic/statistic-invoice")
+      .then((res) => {
+        return res.data;
+      });
+  }
+
+  getStaticBenefit() {
+    return axiosInstance
+      .get(configAPI.baseUrlApiAdmin + "/statistic/statistic-benefit")
+      .then((res) => {
+        return res.data;
+      });
   }
 }
 

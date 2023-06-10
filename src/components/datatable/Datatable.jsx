@@ -13,13 +13,7 @@ import brandService from "../../services/brand.service";
 import categoryService from "../../services/category.service";
 import Swal from "sweetalert2";
 
-const Datatable = ({
-  rows,
-  title,
-  productColumns,
-  type = "",
-  reply = false,
-}) => {
+const Datatable = ({ rows, title, columns, type = "", reply = false }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -62,13 +56,13 @@ const Datatable = ({
       }).then((result) => {
         if (result.isConfirmed) {
           productService.deleteProductByID(id).then(() => {
-            Swal.fire("Xóa thành công", "Thông báo", "success");
+            Swal.fire("Thông báo", "Xóa thành công", "success");
           });
           setTimeout(() => {
             window.location.reload();
           }, 500);
         } else if (result.isDenied) {
-          Swal.fire("Sản phẩm chưa được xóa", "Thông báo", "info");
+          Swal.fire("Thông báo", "Sản phẩm chưa được xóa", "info");
         }
       });
     }
@@ -87,15 +81,15 @@ const Datatable = ({
       }).then((result) => {
         if (result.isConfirmed) {
           brandService.deleteBrandByID(id).then((res) => {
-            if (res.status === "OK") {
-              Swal.fire("Xóa thành công", "Thông báo", "success");
+            if (res.data.status_code === 200) {
+              Swal.fire("Thông báo", "Xóa thành công", "success");
             }
           });
           setTimeout(() => {
             window.location.reload();
           }, 700);
         } else if (result.isDenied) {
-          Swal.fire("Thương hiệu chưa được xóa", "Thông báo", "info");
+          Swal.fire("Thông báo", "Thương hiệu chưa được xóa", "info");
         }
       });
     }
@@ -114,15 +108,15 @@ const Datatable = ({
       }).then((result) => {
         if (result.isConfirmed) {
           categoryService.deleteCategoryByID(id).then((res) => {
-            if (res.status === "OK") {
-              Swal.fire("Xóa thành công", "Thông báo", "success");
+            if (res.data.status_code === 200) {
+              Swal.fire("Thông báo", "Xóa thành công", "success");
             }
           });
           setTimeout(() => {
             window.location.reload();
           }, 700);
         } else if (result.isDenied) {
-          Swal.fire("Thương hiệu chưa được xóa", "Thông báo", "info");
+          Swal.fire("Thông báo", "Thương hiệu chưa được xóa", "info");
         }
       });
     }
@@ -136,7 +130,7 @@ const Datatable = ({
       field: "action",
       renderHeader: (params) => <strong>Xử lý</strong>,
       headerAlign: "center",
-      flex: 1.5,
+      flex: 0.8,
       align: "center",
       renderCell: (params) => {
         return (
@@ -237,9 +231,10 @@ const Datatable = ({
       <DataGrid
         className="datagrid"
         rows={rows}
-        columns={productColumns?.concat(actionColumn)}
-        pageSize={9}
-        rowsPerPageOptions={[9]}
+        columns={columns?.concat(actionColumn)}
+        // pageSize={10}
+        // rowsPerPageOptions={[10]}
+        hideFooter={true}
         sx={{
           ".MuiDataGrid-columnSeparator": {
             display: "none",

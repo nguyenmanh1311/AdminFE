@@ -1,42 +1,42 @@
 import { axiosInstance } from "~/api/axios.config";
 import configAPI from "../api/apiConfig.json";
 
-class BrandService {
-  getAllBrands(data) {
+class NewsService {
+  getAllNews() {
     return axiosInstance
-      .get(configAPI.baseUrlApiAdmin + `/brand`, { params: data })
+      .get(configAPI.baseUrlApiAdmin + "/posts")
       .then((res) => {
         return res.data;
       });
   }
-  getBrandById(id) {
+  getNewsById(id) {
     return axiosInstance
-      .get(configAPI.baseUrlApiAdmin + `/brand/${id}`)
+      .get(configAPI.baseUrlApiAdmin + `/posts/${id}`)
       .then((res) => {
         return res.data;
       });
   }
-  deleteBrandByID(id) {
+  deleteNewsByID(id) {
     return axiosInstance
-      .delete(configAPI.baseUrlApiAdmin + `/brand/${id}`)
+      .delete(configAPI.baseUrlApiAdmin + `/posts/${id}`)
       .then((res) => {
         return res.data;
       });
   }
-  putBrand(input, id) {
+  putNews(input, id) {
     return axiosInstance
-      .patch(configAPI.baseUrlApiAdmin + `/brand/${id}`, input)
+      .patch(configAPI.baseUrlApiAdmin + `/posts/${id}`, input)
       .then((res) => {
         return res.data;
       });
   }
-  createNewBrand(data) {
+  createNews(data) {
     return axiosInstance
-      .post(configAPI.baseUrlApiAdmin + `/brand`, data)
+      .post(configAPI.baseUrlApiAdmin + `/posts`, data)
       .then((res) => {
         return res.data;
       });
   }
 }
 
-export default new BrandService();
+export default new NewsService();

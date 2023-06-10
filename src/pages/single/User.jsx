@@ -21,7 +21,7 @@ const UsersView = () => {
         <Datatable
           rows={getUserData}
           title=""
-          productColumns={userColumns}
+          columns={userColumns}
           type="user"
         />
       </div>

@@ -1,7 +1,6 @@
 import "./sidebar.scss";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import PersonIcon from "@mui/icons-material/Person";
-import LocalShippingIcon from "@mui/icons-material/LocalShipping";
 import CategoryIcon from "@mui/icons-material/Category";
 import CreditCardIcon from "@mui/icons-material/CreditCard";
 import InventoryIcon from "@mui/icons-material/Inventory";
@@ -85,6 +84,7 @@ const Sidebar = () => {
               <span>Đơn hàng</span>
             </li>
           </Link>
+
           {/* <Link to="/delivery" style={{ textDecoration: "none" }}>
             <li>
               <LocalShippingIcon className="icon" />
@@ -96,20 +96,14 @@ const Sidebar = () => {
 							<ThumbUpIcon className="icon" />
 							<span>Đánh giá</span>
 						</li>
-					</Link>
-					<Link to="/comments" style={{ textDecoration: "none" }}>
-						<li>
-							<ChatIcon className="icon" />
-							<span>Bình luận</span>
-						</li>
 					</Link> */}
-          <p className="title">THỐNG KÊ</p>
-          <Link to="/statistical" style={{ textDecoration: "none" }}>
+          <Link to="/news" style={{ textDecoration: "none" }}>
             <li>
               <InsertChartIcon className="icon" />
-              <span>Doanh thu</span>
+              <span>Tin tức</span>
             </li>
           </Link>
+
           {/* <li>
             <NotificationsNoneIcon className="icon" />
             <span>Thông báo</span>

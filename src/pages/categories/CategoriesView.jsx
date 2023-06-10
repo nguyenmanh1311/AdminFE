@@ -23,7 +23,7 @@ const CategoriesView = () => {
         <Datatable
           rows={getComment}
           title=""
-          productColumns={categoryColumns}
+          columns={categoryColumns}
           type="categories"
           reply={true}
         />

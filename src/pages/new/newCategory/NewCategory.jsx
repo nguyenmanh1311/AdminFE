@@ -1,35 +1,31 @@
 import "../new.scss";
-import { baseURL_ } from "../../../api/axios.config";
 import { useNavigate } from "react-router-dom";
+import categoryService from "../../../services/category.service";
+import swal2 from "sweetalert2";
 
 const NewCategory = ({ inputs, title }) => {
   document.title = "Thêm phân loại mới";
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
-    var data = new FormData();
     e.preventDefault();
     const name = document.getElementById("name").value;
     const description = document.getElementById("description").value;
 
-    data.append("name", name);
-    data.append("description", description);
-    const x = {
-      name,
-      description,
-    };
-    async function postData(url = "", data = new FormData()) {
-      const response = await fetch(url, {
-        mode: "no-cors",
-        method: "POST",
-        redirect: "follow",
-        body: data,
+    const postData = () => {
+      const input = {
+        name: name,
+        description: description,
+      };
+
+      categoryService.createNewCategory(input).then((res) => {
+        if (res.status_code === 200) {
+          swal2.fire("Thông báo", "Thêm phân loại thành công", "success");
+          navigate("/categories");
+        }
       });
-      return response;
-    }
-    postData(baseURL_.data + "/category", data).then(() => {
-      navigate("/categories");
-    });
+    };
+    postData();
   };
 
   return (
@@ -39,14 +35,14 @@ const NewCategory = ({ inputs, title }) => {
           <h1>{title}</h1>
         </div>
         <div className="bottom">
-          <div className="left">
+          {/* <div className="left">
             <img
               src={
                 "https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg"
               }
               alt=""
             />
-          </div>
+          </div> */}
           <div className="right">
             <form onSubmit={handleSubmit}>
               <div className="formContainer">
