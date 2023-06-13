@@ -20,11 +20,7 @@ export const productColumns = [
         <div className="cellWithImg">
           <img
             className="cellImg"
-            src={
-              params?.row.product_images
-                ? "https://" + params?.row.product_images[0]?.uri
-                : logo
-            }
+            src={"https://" + params?.row.product_images[0]?.uri || logo}
             alt="avatar"
           />
         </div>
@@ -463,22 +459,17 @@ export const newColumns = [
   },
   {
     field: "post_images",
-    renderHeader: (params) => <strong>Hình ảnh</strong>,
+    renderHeader: (params) => <strong>Ảnh bìa</strong>,
     headerAlign: "center",
     align: "center",
     flex: 0.7,
     renderCell: (params) => {
+      const image = params?.row.post_images[0]?.uri
+        ? "https://" + params?.row.post_images[0]?.uri
+        : logo;
       return (
         <div className="cellWithImg">
-          <img
-            className="cellImg"
-            src={
-              params?.row.post_images
-                ? "https://" + params?.row.post_images[0]?.uri
-                : logo
-            }
-            alt="avatar"
-          />
+          <img className="cellImg" src={image} alt="avatar" />
         </div>
       );
     },

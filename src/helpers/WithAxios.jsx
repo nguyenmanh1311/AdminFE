@@ -1,7 +1,6 @@
 import { useMemo } from "react";
 import { axiosInstance, baseURL } from "~/api/axios.config";
 import { useUser } from "../context/UserContext";
-import history from "./history";
 
 const WithAxios = ({ children }) => {
   const { setIsLoggedIn, setUserData, setAuthData, isLoggedIn } = useUser();
@@ -20,7 +19,6 @@ const WithAxios = ({ children }) => {
               setIsLoggedIn(false);
               setAuthData(null);
               setUserData(null);
-              history.push("/login");
               reject(error);
             });
           }
@@ -36,7 +34,6 @@ const WithAxios = ({ children }) => {
               setIsLoggedIn(false);
               setAuthData(null);
               setUserData(null);
-              history.push("/login");
             }
           }
           return Promise.reject(error);

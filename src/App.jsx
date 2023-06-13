@@ -5,6 +5,7 @@ import { useContext } from "react";
 import { DarkModeContext } from "./context/darkModeContext";
 import { useUser } from "./context/UserContext";
 import { AdminRoutes } from "./routes/route";
+import { DataProvider } from "./context/DataProvider";
 function App() {
   const { darkMode } = useContext(DarkModeContext);
 

@@ -24,6 +24,7 @@ import ListOrder from "../pages/list/ListOrder";
 import OrderDetail from "../pages/order/OrderDetail";
 import ListNews from "../pages/list/ListNews";
 import NewPost from "../pages/new/newPost/newPost";
+import EditPost from "../pages/new/newPost/EditPost";
 export const AdminRoutes = () => {
   return (
     <Routes>
@@ -88,7 +89,7 @@ export const AdminRoutes = () => {
         <Route path="news">
           <Route index element={<ListNews />} />
           <Route path="new" element={<NewPost title="Thêm tin tức mới" />} />
-          <Route path=":brandId" element={<EditBrand />} />
+          <Route path=":postId" element={<EditPost />} />
         </Route>
 
         <Route path="*" element={<NotFound />} />

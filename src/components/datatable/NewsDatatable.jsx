@@ -1,14 +1,19 @@
 import "./datatable.scss";
 import { DataGrid } from "@mui/x-data-grid";
 import { Link, useNavigate } from "react-router-dom";
+import newsService from "../../services/news.service";
+import swal2 from "sweetalert2";
+import useNews from "../../hooks/useNews";
+import { useDataContext } from "../../context/DataProvider";
 
 const NewsDatatable = ({ rows, title, newColumns }) => {
   const navigate = useNavigate();
+  const { deleteNews } = useDataContext();
 
   const actionColumn = [
     {
       field: "handle",
-      renderHeader: () => <strong>Xử lí</strong>,
+      renderHeader: () => <strong>Hành động</strong>,
       headerAlign: "center",
       sortable: false,
 
@@ -27,9 +32,20 @@ const NewsDatatable = ({ rows, title, newColumns }) => {
               {params.row.status != 2 && (
                 <div
                   className="deleteButton"
-                  onClick={() =>
-                    handleClickCancel(params.row.id, params.row.status)
-                  }
+                  onClick={() => {
+                    swal2
+                      .fire({
+                        title: "Bạn có muốn xóa bài viết này?",
+                        showDenyButton: true,
+                        confirmButtonText: "Có",
+                        denyButtonText: "Không",
+                      })
+                      .then((result) => {
+                        if (result.isConfirmed) {
+                          deleteNews(params.row.id);
+                        }
+                      });
+                  }}
                 >
                   Xóa
                 </div>
