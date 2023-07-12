@@ -2,10 +2,10 @@ import "./sidebar.scss";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import PersonIcon from "@mui/icons-material/Person";
 import CategoryIcon from "@mui/icons-material/Category";
-import CreditCardIcon from "@mui/icons-material/CreditCard";
+import ReceiptIcon from "@mui/icons-material/Receipt";
 import InventoryIcon from "@mui/icons-material/Inventory";
 import StoreIcon from "@mui/icons-material/Store";
-import InsertChartIcon from "@mui/icons-material/InsertChart";
+import NewspaperIcon from "@mui/icons-material/Newspaper";
 import GroupIcon from "@mui/icons-material/Group";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import { Link, useNavigate } from "react-router-dom";
@@ -80,7 +80,7 @@ const Sidebar = () => {
           </Link>
           <Link to="/orders" style={{ textDecoration: "none" }}>
             <li>
-              <CreditCardIcon className="icon" />
+              <ReceiptIcon className="icon" />
               <span>Đơn hàng</span>
             </li>
           </Link>
@@ -99,7 +99,7 @@ const Sidebar = () => {
 					</Link> */}
           <Link to="/news" style={{ textDecoration: "none" }}>
             <li>
-              <InsertChartIcon className="icon" />
+              <NewspaperIcon className="icon" />
               <span>Tin tức</span>
             </li>
           </Link>

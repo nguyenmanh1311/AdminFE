@@ -413,7 +413,7 @@ export const orderColumns = [
       if (value === 0) {
         modifiedValue = "MOMO";
       } else if (value === 1) {
-        modifiedValue = "Ngân hàng";
+        modifiedValue = "VNPAY";
       } else if (value === 3) {
         modifiedValue = "COD";
       }
