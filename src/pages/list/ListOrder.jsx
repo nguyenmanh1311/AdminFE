@@ -10,6 +10,7 @@ const ListOrder = () => {
   document.title = "Danh sách đơn hàng";
 
   const [data, setData] = useState([]);
+  const [dataFilter, setDataFilter] = useState();
   const [currentPageNumber, setCurrentPageNumber] = useState(1);
   const [pageCount, setPageCount] = useState(0);
   const stt = useRef();
@@ -18,14 +19,20 @@ const ListOrder = () => {
     setCurrentPageNumber(event.selected + 1);
   };
 
+  const handleDataChange = (newData) => {
+    setDataFilter(newData);
+  };
+
   useEffect(() => {
     function getOrders() {
-      const data = {
+      const input = {
         page_count: 10,
         order_by: "CreatedAt desc",
         page: currentPageNumber,
+        ...dataFilter,
       };
-      OrderService.getAllOrder(data).then((res) => {
+      console.log(input);
+      OrderService.getAllOrder(input).then((res) => {
         stt.current = res?.offset + 1;
         setData(() => {
           const onResult = res.data.map((item, index) => {
@@ -64,6 +71,7 @@ const ListOrder = () => {
           rows={data}
           title="đơn hàng"
           orderColumns={orderColumns}
+          onDataChange={handleDataChange}
         />
 
         <ReactPaginate

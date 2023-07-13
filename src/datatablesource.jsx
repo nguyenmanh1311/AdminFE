@@ -421,32 +421,6 @@ export const orderColumns = [
       return <div>{modifiedValue}</div>;
     },
   },
-  {
-    field: "is_payment",
-    renderHeader: (params) => <strong>Trạng thái thanh toán</strong>,
-    headerAlign: "center",
-    align: "center",
-    flex: 1,
-    renderCell: (params) => {
-      const value = params.value;
-      let modifiedValue = value;
-
-      if (value === false) {
-        modifiedValue = "Chưa thanh toán";
-      } else if (value === true) {
-        modifiedValue = "Đã thanh toán";
-      }
-
-      return <div>{modifiedValue}</div>;
-    },
-  },
-
-  // {
-  //   field: "interest",
-  //   renderHeader: (params) => <strong>Tương tác</strong>,
-  //   headerAlign: "center",
-  //   flex: 0.8,
-  // },
 ];
 
 export const newColumns = [

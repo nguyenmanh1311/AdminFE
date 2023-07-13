@@ -4,13 +4,27 @@ import { UserService } from "../../services/user.service";
 import { Link } from "react-router-dom";
 import { OrderService } from "../../services/order.service";
 import swal2 from "sweetalert2";
+import { useState } from "react";
 
-const OrderDatatble = ({ rows, title, orderColumns }) => {
-  const onchange = (id) => {
-    UserService.updateStatus(id).then();
+const OrderDatatble = ({ rows, title, orderColumns, onDataChange }) => {
+  const [fullName, setFullname] = useState("");
+  const [startDate, setStartDate] = useState();
+  const [endDate, setEndDate] = useState();
+  const [PaymentOption, setPaymentOption] = useState();
+  const [StatusOption, setStatusOption] = useState();
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const data = {
+      is_payment: PaymentOption,
+      status: StatusOption,
+      create_at_from: startDate,
+      create_at_to: endDate,
+    };
+    onDataChange(data);
   };
 
-  const handleClick = async (id, value) => {
+  const handleClickStatus = async (id, value) => {
     if (value === 1) {
       swal2
         .fire({
@@ -43,6 +57,41 @@ const OrderDatatble = ({ rows, title, orderColumns }) => {
         });
     }
   };
+
+  const handleClickPayment = async (id, value) => {
+    if (value === false) {
+      swal2
+        .fire({
+          title: "Bạn có muốn cập nhật trạng thái thanh toán này ?",
+          showDenyButton: true,
+          confirmButtonText: "Có",
+          denyButtonText: "Không",
+        })
+        .then((result) => {
+          if (result.isConfirmed) {
+            const data = {
+              is_payment: true,
+            };
+            const res = OrderService.updateStatusPayment(id, data);
+            if (res) {
+              swal2
+                .fire({
+                  title: "Thông báo",
+                  icon: "success",
+                  text: "Xác nhận thành công",
+                  confirmButtonText: "Đồng ý",
+                })
+                .then((result) => {
+                  if (result.isConfirmed) {
+                    window.location.reload();
+                  }
+                });
+            }
+          }
+        });
+    }
+  };
+
   const handleClickCancel = async (id, status) => {
     if ((status === 1) | (status === 2))
       swal2
@@ -78,6 +127,38 @@ const OrderDatatble = ({ rows, title, orderColumns }) => {
 
   const actionColumn = [
     {
+      field: "is_payment",
+      renderHeader: (params) => <strong>Trạng thái thanh toán</strong>,
+      headerAlign: "center",
+      align: "center",
+      flex: 0.8,
+      renderCell: (params) => {
+        const value = params.value;
+        let modifiedValue = value;
+
+        if (value === false) {
+          modifiedValue = "Chưa thanh toán";
+        } else if (value === true) {
+          modifiedValue = "Đã thanh toán";
+        }
+
+        return (
+          <div className="cellStatus">
+            {value === true ? (
+              <button className="completeButton">{modifiedValue}</button>
+            ) : (
+              <button
+                className="confirmButton"
+                onClick={() => handleClickPayment(params.row.id, value)}
+              >
+                {modifiedValue}
+              </button>
+            )}
+          </div>
+        );
+      },
+    },
+    {
       field: "status",
       renderHeader: () => <strong>Trạng thái đơn hàng</strong>,
       headerAlign: "center",
@@ -102,7 +183,7 @@ const OrderDatatble = ({ rows, title, orderColumns }) => {
             {modifiedValue === "Đang chờ xác nhận" && (
               <button
                 className="confirmButton"
-                onClick={() => handleClick(params.row.id, value)}
+                onClick={() => handleClickStatus(params.row.id, value)}
               >
                 {modifiedValue}
               </button>
@@ -126,7 +207,7 @@ const OrderDatatble = ({ rows, title, orderColumns }) => {
       headerAlign: "center",
       sortable: false,
 
-      flex: 0.5,
+      flex: 0.7,
       align: "center",
       renderCell: (params) => {
         {
@@ -138,7 +219,7 @@ const OrderDatatble = ({ rows, title, orderColumns }) => {
               >
                 <button className="viewButton">Xem</button>
               </Link>
-              {params.row.status != 4 && (
+              {params.row.status === 1 && (
                 <div
                   className="deleteButton"
                   onClick={() =>
@@ -161,12 +242,134 @@ const OrderDatatble = ({ rows, title, orderColumns }) => {
         <div className="font-semibold text-[24px]">Quản lý {title}</div>
       </div>
 
+      <form>
+        <div className="space-y-12 border-b border-gray-900/10 pb-12">
+          <div className="">
+            <h2 className="text-base font-semibold leading-7 text-gray-900">
+              Bộ lọc
+            </h2>
+
+            <div className="mt-2 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+              <div className="sm:col-span-1 sm:col-start-1">
+                <label
+                  htmlFor="name"
+                  className="block text-sm font-medium leading-6 text-gray-900"
+                >
+                  Họ tên khách hàng
+                </label>
+                <div className="mt-2">
+                  <input
+                    type="text"
+                    name="name"
+                    id="name"
+                    autoComplete="name"
+                    onChange={(e) => {
+                      setFullname(e.target.value);
+                    }}
+                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  />
+                </div>
+              </div>
+              <div className="sm:col-span-1">
+                <label
+                  htmlFor="payment"
+                  className="block text-sm font-medium leading-6 text-gray-900"
+                >
+                  Trạng thái thanh toán
+                </label>
+                <div className="mt-2">
+                  <select
+                    id="payment"
+                    name="payment"
+                    autoComplete="payment"
+                    onChange={(e) => setPaymentOption(e.target.value)}
+                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
+                  >
+                    <option value={true}>Đã thanh toán</option>
+                    <option value={false}>Chưa thanh toán</option>
+                  </select>
+                </div>
+              </div>
+
+              <div className="sm:col-span-1">
+                <label
+                  htmlFor="order-status"
+                  className="block text-sm font-medium leading-6 text-gray-900"
+                >
+                  Trạng thái đơn hàng
+                </label>
+                <div className="mt-2">
+                  <select
+                    id="order-status"
+                    name="order-status"
+                    autoComplete="order-status"
+                    onChange={(e) => setStatusOption(e.target.value)}
+                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
+                  >
+                    <option value={1}>Đang chờ xác nhận</option>
+                    <option value={2}>Đang chuẩn bị hàng</option>
+                    <option value={3}>Đã hoàn thành</option>
+                    <option value={4}>Đã hủy</option>
+                  </select>
+                </div>
+              </div>
+              <div className="sm:col-span-1">
+                <label
+                  htmlFor="form"
+                  className="block text-sm font-medium leading-6 text-gray-900"
+                >
+                  Từ ngày
+                </label>
+                <div className="mt-2">
+                  <input
+                    id="form"
+                    type="date"
+                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    onChange={(e) => setStartDate(e.target.value)}
+                  />
+                </div>
+              </div>
+              <div className="sm:col-span-1">
+                <label
+                  htmlFor="to"
+                  className="block text-sm font-medium leading-6 text-gray-900"
+                >
+                  Đến ngày
+                </label>
+                <div className="mt-2">
+                  <input
+                    id="to"
+                    type="date"
+                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    onChange={(e) => setEndDate(e.target.value)}
+                  />
+                </div>
+              </div>
+              <div className="ml-10 sm:col-span-1 flex items-end">
+                <div className="flex  justify-center gap-x-6 ">
+                  <button
+                    onClick={handleSubmit}
+                    type="submit"
+                    className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                  >
+                    Lọc
+                  </button>
+                  <button
+                    type="button"
+                    className="text-sm font-semibold leading-6 text-gray-900"
+                  >
+                    Xóa
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
       <DataGrid
         className="datagrid"
         rows={rows}
         columns={orderColumns.concat(actionColumn)}
-        // pageSize={10}
-        // rowsPerPageOptions={[10]}
         hideFooter={true}
         sx={{
           ".MuiDataGrid-columnSeparator": {

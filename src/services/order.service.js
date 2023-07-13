@@ -29,6 +29,13 @@ export const OrderService = {
     );
   },
 
+  updateStatusPayment(id, data) {
+    return axiosInstance.patch(
+      configApi.baseUrlApiAdmin + `/invoice/${id}`,
+      data
+    );
+  },
+
   getDetailOrderById(id) {
     return axiosInstance
       .get(configApi.baseUrlApiAdmin + "/invoice/" + id)
