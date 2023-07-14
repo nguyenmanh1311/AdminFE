@@ -25,12 +25,13 @@ const ListOrder = () => {
 
   useEffect(() => {
     function getOrders() {
-      const input = {
+      const sort = {
         page_count: 10,
         order_by: "CreatedAt desc",
         page: currentPageNumber,
-        ...dataFilter,
       };
+      const input = { ...sort, ...dataFilter };
+
       console.log(input);
       OrderService.getAllOrder(input).then((res) => {
         stt.current = res?.offset + 1;
@@ -62,7 +63,7 @@ const ListOrder = () => {
       });
     }
     getOrders();
-  }, [currentPageNumber]);
+  }, [currentPageNumber, dataFilter]);
   return (
     <div className="list">
       <div className="listContainer">

@@ -58,7 +58,6 @@ const Home = () => {
     StaticInvoice();
   }, []);
 
-  console.log(dataSevenDayInvoice);
   if (localStorage.getItem("accessToken") === null) {
     return <Navigate to="/login" />;
   }

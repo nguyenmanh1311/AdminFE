@@ -1,13 +1,9 @@
 import "./datatable.scss";
 import { DataGrid } from "@mui/x-data-grid";
 import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
-import { useInsertionEffect } from "react";
-// import { removeComments } from "../../redux/comment/commentApi";
 import { useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import { showModal, offModal } from "../../redux/modal/modalApi";
-// import CreatePostModal from "../CreateModal";
 import productService from "../../services/product.service";
 import brandService from "../../services/brand.service";
 import categoryService from "../../services/category.service";
@@ -215,7 +211,7 @@ const Datatable = ({ rows, title, columns, type = "", reply = false }) => {
     },
   ];
   return (
-    <div className="datatable">
+    <div className="datatable h-[850px]">
       <div className="flex justify-between mb-3">
         <div className="font-semibold text-[24px]">Quản lý {title}</div>
 
@@ -223,7 +219,7 @@ const Datatable = ({ rows, title, columns, type = "", reply = false }) => {
           onClick={() => {
             navigate("/" + type + "/new");
           }}
-          className="bg-blue-500 text-white w-[200px] rounded-md p-2 flex justify-center items-center cursor-pointer hover:drop-shadow-md transition-all duration-200"
+          className="bg-teal-500 text-white w-[200px] rounded-md p-2 flex justify-center items-center cursor-pointer hover:bg-teal-600 transition-all duration-200"
         >
           Thêm mới
         </div>
@@ -232,8 +228,6 @@ const Datatable = ({ rows, title, columns, type = "", reply = false }) => {
         className="datagrid"
         rows={rows}
         columns={columns?.concat(actionColumn)}
-        // pageSize={10}
-        // rowsPerPageOptions={[10]}
         hideFooter={true}
         sx={{
           ".MuiDataGrid-columnSeparator": {
@@ -244,7 +238,6 @@ const Datatable = ({ rows, title, columns, type = "", reply = false }) => {
           },
         }}
       />
-      {/* <CreatePostModal></CreatePostModal> */}
     </div>
   );
 };

@@ -1,21 +1,16 @@
 import "./datatable.scss";
 import { DataGrid } from "@mui/x-data-grid";
-import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
 import Switch from "react-js-switch";
-import { Triangle } from "react-bootstrap-icons";
 import { UserService } from "../../services/user.service";
 
 const UserDatatable = ({ rows, title, userColumns }) => {
-  const handleDelete = (id) => {
-    setData(data.filter((item) => item.id !== id));
-  };
-
   const onchange = (id) => {
-    UserService.updateStatus(id).then();
+    const input = {
+      status: 1,
+    };
+    UserService.updateStatus(id, input).then();
   };
 
-  const navigate = useNavigate();
   const enableColumn = [
     {
       field: "status",
@@ -41,40 +36,8 @@ const UserDatatable = ({ rows, title, userColumns }) => {
       },
     },
   ];
-  // const actionColumn = [
-  //   {
-  //     field: "action",
-  //     headerName: "Xử lý",
-  //     headerAlign: "center",
-  //     width: 200,
-  //     renderCell: (params) => {
-  //       return (
-  //         <div className="cellAction">
-  //           <Link
-  //             to={`/users/${params.row.id}`}
-  //             style={{ textDecoration: "none" }}
-  //           >
-  //             <div className="viewButton">Xem</div>
-  //           </Link>
-  //           <div
-  //             className="updateButton"
-  //             onClick={() => handleDelete(params.row.id)}
-  //           >
-  //             Sửa
-  //           </div>
-  //           <div
-  //             className="deleteButton"
-  //             onClick={() => handleDelete(params.row.id)}
-  //           >
-  //             Xóa
-  //           </div>
-  //         </div>
-  //       );
-  //     },
-  //   },
-  // ];
   return (
-    <div className="datatable">
+    <div className="datatable h-[850px]">
       <div className="flex justify-between mb-3">
         <div className="font-semibold text-[24px]">Quản lý {title}</div>
       </div>
@@ -83,8 +46,6 @@ const UserDatatable = ({ rows, title, userColumns }) => {
         className="datagrid"
         rows={rows}
         columns={userColumns.concat(enableColumn)}
-        // pageSize={9}
-        // rowsPerPageOptions={[9]}
         hideFooter={true}
         sx={{
           ".MuiDataGrid-columnSeparator": {

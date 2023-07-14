@@ -1,5 +1,4 @@
 .datatable {
-  height: 900px;
   padding: 20px;
 
   .datatableTitle {
@@ -28,9 +27,15 @@
     align-items: center;
     justify-content: center;
     .cellImg {
-      width: 32px;
-      height: 32px;
+      width: 150px;
+      height: 200px;
       border-radius: 50%;
+      object-fit: cover;
+      margin-right: 20px;
+    }
+    .cellLargeImg {
+      width: 150px;
+      height: 150px;
       object-fit: cover;
       margin-right: 20px;
     }

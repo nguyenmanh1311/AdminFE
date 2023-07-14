@@ -4,53 +4,40 @@ import { Link, useNavigate } from "react-router-dom";
 import swal2 from "sweetalert2";
 import { useDataContext } from "../../context/DataProvider";
 
-const NewsDatatable = ({ rows, title, newColumns }) => {
+const ProductDatatable = ({ rows, title, productColumns }) => {
   const navigate = useNavigate();
-  const { deleteNews } = useDataContext();
 
   const actionColumn = [
     {
-      field: "handle",
-      renderHeader: () => <strong>Hành động</strong>,
+      field: "action",
+      renderHeader: (params) => <strong>Xử lý</strong>,
       headerAlign: "center",
-      sortable: false,
-
-      flex: 0.5,
+      flex: 0.8,
       align: "center",
       renderCell: (params) => {
-        {
-          return (
-            <div className="cellAction">
-              <Link
-                to={`/news/${params.row.id}`}
-                style={{ textDecoration: "none" }}
-              >
-                <button className="viewButton">Xem</button>
-              </Link>
-              {params.row.status != 2 && (
-                <div
-                  className="deleteButton"
-                  onClick={() => {
-                    swal2
-                      .fire({
-                        title: "Bạn có muốn xóa bài viết này?",
-                        showDenyButton: true,
-                        confirmButtonText: "Có",
-                        denyButtonText: "Không",
-                      })
-                      .then((result) => {
-                        if (result.isConfirmed) {
-                          deleteNews(params.row.id);
-                        }
-                      });
-                  }}
-                >
-                  Xóa
-                </div>
-              )}
+        return (
+          <div className="cellAction ">
+            <Link
+              to={`/products/${params.row.id}`}
+              style={{ textDecoration: "none" }}
+            >
+              <div className="viewButton">Xem</div>
+            </Link>
+
+            <div
+              className="deleteButton"
+              onClick={() => {
+                if (type === "comment") {
+                  handleDelete(params.row.id, params.row.creator.replyforId);
+                } else {
+                  handleDelete(params.row.id);
+                }
+              }}
+            >
+              Xóa
             </div>
-          );
-        }
+          </div>
+        );
       },
     },
   ];
@@ -61,7 +48,7 @@ const NewsDatatable = ({ rows, title, newColumns }) => {
         <div className="font-semibold text-[24px]">Quản lý {title}</div>
         <div
           onClick={() => {
-            navigate("/news/new");
+            navigate("/products/new");
           }}
           className="bg-teal-500 text-white w-[200px] rounded-md p-2 flex justify-center items-center cursor-pointer hover:bg-teal-600 transition-all duration-200"
         >
@@ -72,7 +59,7 @@ const NewsDatatable = ({ rows, title, newColumns }) => {
       <DataGrid
         className="datagrid"
         rows={rows}
-        columns={newColumns.concat(actionColumn)}
+        columns={productColumns?.concat(actionColumn)}
         hideFooter={true}
         rowHeight={200}
         sx={{
@@ -93,4 +80,4 @@ const NewsDatatable = ({ rows, title, newColumns }) => {
   );
 };
 
-export default NewsDatatable;
+export default ProductDatatable;

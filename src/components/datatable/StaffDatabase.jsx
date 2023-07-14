@@ -72,14 +72,14 @@ const StaffDatabase = ({ rows, title, userColumns }) => {
   //   },
   // ];
   return (
-    <div className="datatable">
+    <div className="datatable h-[850px] ">
       <div className="flex justify-between mb-3">
         <div className="font-semibold text-[24px]">Quản lý {title}</div>
         <div
           onClick={() => {
             navigate("/staffs/new");
           }}
-          className="bg-blue-500 text-white w-[200px] rounded-md p-2 flex justify-center items-center cursor-pointer hover:drop-shadow-md transition-all duration-200"
+          className="bg-teal-500 text-white w-[200px] rounded-md p-2 flex justify-center items-center cursor-pointer hover:bg-teal-600 transition-all duration-200"
         >
           Thêm mới
         </div>

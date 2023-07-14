@@ -8,20 +8,39 @@ import { useState } from "react";
 
 const OrderDatatble = ({ rows, title, orderColumns, onDataChange }) => {
   const [fullName, setFullname] = useState("");
-  const [startDate, setStartDate] = useState();
-  const [endDate, setEndDate] = useState();
-  const [PaymentOption, setPaymentOption] = useState();
-  const [StatusOption, setStatusOption] = useState();
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
+  const [paymentOption, setPaymentOption] = useState("");
+  const [statusOption, setStatusOption] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const data = {
-      is_payment: PaymentOption,
-      status: StatusOption,
-      create_at_from: startDate,
-      create_at_to: endDate,
-    };
-    onDataChange(data);
+    if (statusOption) {
+      const data = {
+        is_payment: paymentOption,
+        status: Number(statusOption),
+        create_at_from: startDate,
+        create_at_to: endDate,
+      };
+      console.log("data oderdatable", data);
+      onDataChange(data);
+    } else {
+      const data = {
+        is_payment: paymentOption,
+        create_at_from: startDate,
+        create_at_to: endDate,
+      };
+      console.log("data oderdatable", data);
+      onDataChange(data);
+    }
+  };
+
+  const handleDelete = () => {
+    setFullname("");
+    setStartDate();
+    setEndDate();
+    setPaymentOption("");
+    setStatusOption("");
   };
 
   const handleClickStatus = async (id, value) => {
@@ -237,7 +256,7 @@ const OrderDatatble = ({ rows, title, orderColumns, onDataChange }) => {
   ];
 
   return (
-    <div className="datatable">
+    <div className="datatable overflow-hidden h-[850px]">
       <div className="flex justify-between mb-3">
         <div className="font-semibold text-[24px]">Quản lý {title}</div>
       </div>
@@ -282,9 +301,11 @@ const OrderDatatble = ({ rows, title, orderColumns, onDataChange }) => {
                     id="payment"
                     name="payment"
                     autoComplete="payment"
+                    value={paymentOption}
                     onChange={(e) => setPaymentOption(e.target.value)}
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
                   >
+                    <option value="">--Các lựa chọn--</option>
                     <option value={true}>Đã thanh toán</option>
                     <option value={false}>Chưa thanh toán</option>
                   </select>
@@ -303,9 +324,11 @@ const OrderDatatble = ({ rows, title, orderColumns, onDataChange }) => {
                     id="order-status"
                     name="order-status"
                     autoComplete="order-status"
+                    value={statusOption}
                     onChange={(e) => setStatusOption(e.target.value)}
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
                   >
+                    <option value="">---Các lựa chọn---</option>
                     <option value={1}>Đang chờ xác nhận</option>
                     <option value={2}>Đang chuẩn bị hàng</option>
                     <option value={3}>Đã hoàn thành</option>
@@ -324,6 +347,7 @@ const OrderDatatble = ({ rows, title, orderColumns, onDataChange }) => {
                   <input
                     id="form"
                     type="date"
+                    value={startDate || ""}
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                     onChange={(e) => setStartDate(e.target.value)}
                   />
@@ -340,6 +364,7 @@ const OrderDatatble = ({ rows, title, orderColumns, onDataChange }) => {
                   <input
                     id="to"
                     type="date"
+                    value={endDate || ""}
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                     onChange={(e) => setEndDate(e.target.value)}
                   />
@@ -350,13 +375,14 @@ const OrderDatatble = ({ rows, title, orderColumns, onDataChange }) => {
                   <button
                     onClick={handleSubmit}
                     type="submit"
-                    className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                    className="rounded-md bg-teal-400 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-teal-600 "
                   >
                     Lọc
                   </button>
                   <button
                     type="button"
-                    className="text-sm font-semibold leading-6 text-gray-900"
+                    className="rounded-md bg-red-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-700 "
+                    onClick={handleDelete}
                   >
                     Xóa
                   </button>

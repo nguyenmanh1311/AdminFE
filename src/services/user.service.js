@@ -9,9 +9,10 @@ export const UserService = {
         return res.data;
       });
   },
-  updateStatus(id) {
-    return axiosInstance.put(
-      configAPI.baseUrlApiAdmin + `/account/${id}/change-status`
+  updateStatus(id, input) {
+    return axiosInstance.patch(
+      configAPI.baseUrlApiAdmin + `/account/${id}/change-status`,
+      { params: input }
     );
   },
   getUser(id) {

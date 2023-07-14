@@ -1,6 +1,6 @@
 import "./list.scss";
 import { useState, useEffect, useRef } from "react";
-import Datatable from "~/components/datatable/Datatable";
+import Datatable from "~/components/datatable/ProductDatatable";
 import ProductService from "../../services/product.service";
 import { productColumns } from "~/datatablesource";
 import { Navigate } from "react-router-dom";
@@ -36,6 +36,7 @@ const ListProduct = () => {
               return {
                 index: stt.current++,
                 Price: GlobalUtil.commas(item.price + "") + "₫",
+                Stand_cost: GlobalUtil.commas(item.stand_cost + "") + "₫",
                 brandName: item.brand.name,
                 categoryName: item.category.name,
                 ...item,
@@ -45,6 +46,7 @@ const ListProduct = () => {
               return {
                 index: ++index,
                 Price: GlobalUtil.commas(item.price + "") + "₫",
+                Stand_cost: GlobalUtil.commas(item.stand_cost + "") + "₫",
                 brandName: item.brand.name,
                 categoryName: item.category.name,
                 ...item,
@@ -68,7 +70,7 @@ const ListProduct = () => {
         <Datatable
           rows={data}
           title={"sản phẩm"}
-          columns={productColumns}
+          productColumns={productColumns}
           type="products"
         />
         {totalCount > 10 && (

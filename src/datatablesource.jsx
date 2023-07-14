@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import logo from "./assets/avatar.jpg";
 
 export const productColumns = [
@@ -14,12 +14,12 @@ export const productColumns = [
     renderHeader: (params) => <strong>Hình ảnh</strong>,
     headerAlign: "center",
     align: "center",
-    flex: 0.7,
+    flex: 1,
     renderCell: (params) => {
       return (
         <div className="cellWithImg">
           <img
-            className="cellImg"
+            className="cellLargeImg"
             src={"https://" + params?.row.product_images[0]?.uri || logo}
             alt="avatar"
           />
@@ -31,7 +31,7 @@ export const productColumns = [
     field: "name",
     renderHeader: (params) => <strong>Tên sản phẩm</strong>,
     headerAlign: "center",
-    flex: 1.5,
+    flex: 1.4,
   },
   {
     field: "brandName",
@@ -52,20 +52,20 @@ export const productColumns = [
     renderHeader: (params) => <strong>Giá bán</strong>,
     headerAlign: "center",
     align: "center",
-    flex: 0.6,
+    flex: 0.8,
   },
   {
-    field: "stand_cost",
+    field: "Stand_cost",
     renderHeader: (params) => <strong>Giá nhập</strong>,
     headerAlign: "center",
     align: "center",
-    flex: 0.6,
+    flex: 0.8,
   },
   {
     field: "description",
     renderHeader: (params) => <strong>Mô tả</strong>,
     headerAlign: "center",
-    flex: 2,
+    flex: 1.2,
   },
 ];
 
@@ -374,7 +374,7 @@ export const orderColumns = [
     renderHeader: (params) => <strong>STT</strong>,
     headerAlign: "center",
     align: "center",
-    flex: 0.2,
+    flex: 0.3,
   },
   {
     field: "fullname",
@@ -405,7 +405,7 @@ export const orderColumns = [
     renderHeader: (params) => <strong>Phương thức thanh toán</strong>,
     headerAlign: "center",
     align: "center",
-    flex: 1,
+    flex: 0.8,
     renderCell: (params) => {
       const value = params.value;
       let modifiedValue = value;
@@ -443,7 +443,7 @@ export const newColumns = [
         : logo;
       return (
         <div className="cellWithImg">
-          <img className="cellImg" src={image} alt="avatar" />
+          <img className="cellLargeImg" src={image} alt="avatar" />
         </div>
       );
     },
