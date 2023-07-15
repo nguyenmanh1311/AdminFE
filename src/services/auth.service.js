@@ -37,7 +37,7 @@ const login = (username, password) => {
     .catch(() => {
       Swal.fire(
         "Thông báo",
-        "Số điện thoại đăng ký hoặc mật chưa đúng",
+        "Số điện thoại đăng ký hoặc mật khẩu chưa đúng",
         "error"
       );
     });

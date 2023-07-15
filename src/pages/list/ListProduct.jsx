@@ -83,7 +83,7 @@ const ListProduct = () => {
         />
         {totalCount > 10 && (
           <ReactPaginate
-            className="pagination-item "
+            className="pagination-item"
             breakLabel="..."
             nextLabel="►"
             onPageChange={handlePageClick}

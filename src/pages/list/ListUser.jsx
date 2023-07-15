@@ -9,6 +9,8 @@ import ReactPaginate from "react-paginate";
 const ListUser = () => {
   document.title = "Danh sách khách hàng";
   const [data, setData] = useState([]);
+  const [dataFilter, setDataFilter] = useState();
+
   const [currentPageNumber, setCurrentPageNumber] = useState(1);
   const [pageCount, setPageCount] = useState(0);
   const [totalCount, setTotalCount] = useState();
@@ -18,14 +20,22 @@ const ListUser = () => {
   const handlePageClick = (event) => {
     setCurrentPageNumber(event.selected + 1);
   };
+
+  const handleDataChange = (newData) => {
+    setDataFilter(newData);
+  };
+
   useEffect(() => {
     function getUsers() {
-      const input = {
+      const sort = {
         role: 99,
         page_count: 10,
         order_by: "CreatedAt Desc",
         page: currentPageNumber,
       };
+
+      const input = { ...sort, ...dataFilter };
+
       UserService.getAllUser(input).then((res) => {
         stt.current = res?.offset + 1;
         setTotalCount(res.total_count);
@@ -51,14 +61,19 @@ const ListUser = () => {
       });
     }
     getUsers();
-  }, []);
+  }, [currentPageNumber, dataFilter]);
   if (localStorage.getItem("accessToken") === null) {
     return <Navigate to="/login" />;
   }
   return (
     <div className="list">
       <div className="listContainer">
-        <Datatable rows={data} title="khách hàng" userColumns={userColumns} />
+        <Datatable
+          rows={data}
+          title="khách hàng"
+          userColumns={userColumns}
+          onDataChange={handleDataChange}
+        />
         {totalCount > 10 && (
           <ReactPaginate
             className="pagination-item "

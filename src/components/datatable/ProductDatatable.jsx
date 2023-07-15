@@ -121,7 +121,7 @@ const ProductDatatable = ({ rows, title, productColumns, onDataChange }) => {
   }, []);
 
   return (
-    <div className="datatable overflow-hidden h-[1100px]">
+    <div className="datatable" style={{ height: 900, overflow: "auto" }}>
       <div className="flex justify-between mb-3">
         <div className="font-semibold text-[24px]">Quản lý {title}</div>
         <div
@@ -261,7 +261,7 @@ const ProductDatatable = ({ rows, title, productColumns, onDataChange }) => {
                   type="submit"
                   className="rounded-md bg-teal-400 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-teal-600 "
                 >
-                  Lọc đơn hàng
+                  Lọc sản phẩm
                 </button>
                 <button
                   type="button"
