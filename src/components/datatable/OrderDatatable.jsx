@@ -8,6 +8,7 @@ import { useState } from "react";
 
 const OrderDatatble = ({ rows, title, orderColumns, onDataChange }) => {
   const [fullName, setFullname] = useState("");
+  const [phone, setPhone] = useState("");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [paymentOption, setPaymentOption] = useState("");
@@ -18,6 +19,8 @@ const OrderDatatble = ({ rows, title, orderColumns, onDataChange }) => {
     if (statusOption) {
       const data = {
         is_payment: paymentOption,
+        fullname: fullName,
+        phone_number: phone,
         status: Number(statusOption),
         create_at_from: startDate,
         create_at_to: endDate,
@@ -27,6 +30,8 @@ const OrderDatatble = ({ rows, title, orderColumns, onDataChange }) => {
     } else {
       const data = {
         is_payment: paymentOption,
+        phone_number: phone,
+        fullname: fullName,
         create_at_from: startDate,
         create_at_to: endDate,
       };
@@ -41,6 +46,17 @@ const OrderDatatble = ({ rows, title, orderColumns, onDataChange }) => {
     setEndDate();
     setPaymentOption("");
     setStatusOption("");
+    setPhone("");
+    const data = {
+      is_payment: null,
+      fullname: null,
+      phone_number: null,
+      status: null,
+      create_at_from: null,
+      create_at_to: null,
+    };
+    console.log("data oderdatable delete", data);
+    onDataChange(data);
   };
 
   const handleClickStatus = async (id, value) => {
@@ -256,7 +272,7 @@ const OrderDatatble = ({ rows, title, orderColumns, onDataChange }) => {
   ];
 
   return (
-    <div className="datatable overflow-hidden h-[850px]">
+    <div className="datatable overflow-hidden h-[900px]">
       <div className="flex justify-between mb-3">
         <div className="font-semibold text-[24px]">Quản lý {title}</div>
       </div>
@@ -282,8 +298,30 @@ const OrderDatatble = ({ rows, title, orderColumns, onDataChange }) => {
                     name="name"
                     id="name"
                     autoComplete="name"
+                    value={fullName}
                     onChange={(e) => {
                       setFullname(e.target.value);
+                    }}
+                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  />
+                </div>
+              </div>
+              <div className="sm:col-span-1">
+                <label
+                  htmlFor="phone"
+                  className="block text-sm font-medium leading-6 text-gray-900"
+                >
+                  Số điện thoại
+                </label>
+                <div className="mt-2">
+                  <input
+                    type="text"
+                    name="phone"
+                    id="phone"
+                    autoComplete="phone"
+                    value={phone}
+                    onChange={(e) => {
+                      setPhone(e.target.value);
                     }}
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   />
@@ -341,7 +379,7 @@ const OrderDatatble = ({ rows, title, orderColumns, onDataChange }) => {
                   htmlFor="form"
                   className="block text-sm font-medium leading-6 text-gray-900"
                 >
-                  Từ ngày
+                  Đặt mua từ ngày
                 </label>
                 <div className="mt-2">
                   <input
@@ -358,7 +396,7 @@ const OrderDatatble = ({ rows, title, orderColumns, onDataChange }) => {
                   htmlFor="to"
                   className="block text-sm font-medium leading-6 text-gray-900"
                 >
-                  Đến ngày
+                  Đặt mua đến ngày
                 </label>
                 <div className="mt-2">
                   <input
@@ -370,23 +408,24 @@ const OrderDatatble = ({ rows, title, orderColumns, onDataChange }) => {
                   />
                 </div>
               </div>
-              <div className="ml-10 sm:col-span-1 flex items-end">
-                <div className="flex  justify-center gap-x-6 ">
-                  <button
-                    onClick={handleSubmit}
-                    type="submit"
-                    className="rounded-md bg-teal-400 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-teal-600 "
-                  >
-                    Lọc
-                  </button>
-                  <button
-                    type="button"
-                    className="rounded-md bg-red-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-700 "
-                    onClick={handleDelete}
-                  >
-                    Xóa
-                  </button>
-                </div>
+            </div>
+
+            <div className="mt-10 flex justify-end">
+              <div className="flex  justify-center gap-x-6 ">
+                <button
+                  onClick={handleSubmit}
+                  type="submit"
+                  className="rounded-md bg-teal-400 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-teal-600 "
+                >
+                  Lọc đơn hàng
+                </button>
+                <button
+                  type="button"
+                  className="rounded-md bg-red-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-700 "
+                  onClick={handleDelete}
+                >
+                  Xóa bộ lọc
+                </button>
               </div>
             </div>
           </div>

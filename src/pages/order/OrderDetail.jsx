@@ -99,7 +99,7 @@ const OrderDetail = (props) => {
           <p className="flex text-2xl">
             <span className="font-bold">Thành tiền: </span>
             <span className="text-red-500 ml-2 font-bold">
-              {numberWithCommas(orderItems?.total)}₫
+              {numberWithCommas(orderItems?.total + orderItems?.shipping_fee)}₫
             </span>
           </p>
         </div>
@@ -115,62 +115,6 @@ const OrderDetail = (props) => {
             </ul>
           </div>
         </div>
-        {/* <div className="flex justify-center items-center flex-wrap">
-          {props.status === "Đặt hàng" && (
-            <div className="flex gap-2">
-              <p className="mt-1 mr-1">Chọn Shipper:</p>
-              <select name="shiper" id="shiper" ref={shipId}>
-                {props.listShiper.map((item) => {
-                  return (
-                    <option
-                      key={item.id}
-                      value={item.id}
-                      style={{ fontSize: "24px" }}
-                    >
-                      {item.firstName} {item.lastName}
-                    </option>
-                  );
-                })}
-              </select>
-              <button
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                type="button"
-                onClick={() => {
-                  if (window.confirm("Bạn có muốn xác nhận đã giao?")) {
-                    OrderService.updateShipingStatus(
-                      props.id,
-                      Number(shipId.current.value)
-                    ).then((res) => {
-                      if (res.data.statusCode === "OK") {
-                        window.location.reload();
-                      }
-                    });
-                  }
-                }}
-              >
-                Xác nhận giao hàng
-              </button>
-            </div>
-          )}
-          {props.status === "Đang giao hàng" &&
-            JSON.parse(localStorage.getItem("role")) === "Shipper" && (
-              <button
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                type="button"
-                onClick={() => {
-                  if (window.confirm("Bạn có muốn xác nhận đã giao?")) {
-                    OrderService.updateShipStatus(props.id).then((res) => {
-                      if (res.data.statusCode === "OK") {
-                        window.location.reload();
-                      }
-                    });
-                  }
-                }}
-              >
-                Xác nhận đã giao hàng
-              </button>
-            )}
-        </div> */}
       </div>
     </div>
   );

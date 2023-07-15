@@ -38,31 +38,6 @@ const Datatable = ({ rows, title, columns, type = "", reply = false }) => {
       removeReviews(dispatch, id, idPro.commentId);
     }
 
-    if (type === "products") {
-      Swal.fire({
-        title: "Bạn có chắc chắn xóa sản phẩm này không ?",
-        showDenyButton: true,
-        confirmButtonText: "Có",
-        denyButtonText: "Không",
-        customClass: {
-          actions: "my-actions",
-          confirmButton: "order-2",
-          denyButton: "order-3",
-        },
-      }).then((result) => {
-        if (result.isConfirmed) {
-          productService.deleteProductByID(id).then(() => {
-            Swal.fire("Thông báo", "Xóa thành công", "success");
-          });
-          setTimeout(() => {
-            window.location.reload();
-          }, 500);
-        } else if (result.isDenied) {
-          Swal.fire("Thông báo", "Sản phẩm chưa được xóa", "info");
-        }
-      });
-    }
-
     if (type === "brands") {
       Swal.fire({
         title: "Bạn có chắc chắn xóa thương hiệu này không ?",
@@ -169,30 +144,7 @@ const Datatable = ({ rows, title, columns, type = "", reply = false }) => {
                 <div className="viewButton">Xem</div>
               </Link>
             )}
-            {type === "user" && (
-              <Link
-                to={`/users/${params.row.id}`}
-                style={{ textDecoration: "none" }}
-              >
-                <div className="viewButton">Xem</div>
-              </Link>
-            )}
-            {type === "products" && (
-              <>
-                <Link
-                  to={`/products/${params.row.id}`}
-                  style={{ textDecoration: "none" }}
-                >
-                  <div className="viewButton">Xem</div>
-                </Link>
-                {/* <Link
-                  to={`/products/${params.row.id}`}
-                  style={{ textDecoration: "none" }}
-                >
-                  <div className="updateButton">Sửa</div>
-                </Link> */}
-              </>
-            )}
+
             <div
               className="deleteButton"
               onClick={() => {
@@ -224,6 +176,7 @@ const Datatable = ({ rows, title, columns, type = "", reply = false }) => {
           Thêm mới
         </div>
       </div>
+      {}
       <DataGrid
         className="datagrid"
         rows={rows}

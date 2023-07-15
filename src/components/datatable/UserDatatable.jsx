@@ -4,10 +4,13 @@ import Switch from "react-js-switch";
 import { UserService } from "../../services/user.service";
 
 const UserDatatable = ({ rows, title, userColumns }) => {
-  const onchange = (id) => {
+  const onchange = (id, status) => {
     const input = {
-      status: 1,
+      status: 2,
     };
+    if (status != 3) {
+      input.status = 3;
+    }
     UserService.updateStatus(id, input).then();
   };
 
@@ -27,7 +30,7 @@ const UserDatatable = ({ rows, title, userColumns }) => {
               <Switch
                 initialValue={params.row.status === 2 ? true : false}
                 onChange={() => {
-                  onchange(params.row.id);
+                  onchange(params.row.id, params.row.status);
                 }}
               />
             </div>

@@ -9,10 +9,15 @@ const StaffDatabase = ({ rows, title, userColumns }) => {
     setData(data.filter((item) => item.id !== id));
   };
 
-  const onchange = (id) => {
-    UserService.updateStatus(id).then();
+  const onchange = (id, status) => {
+    const input = {
+      status: 2,
+    };
+    if (status != 3) {
+      input.status = 3;
+    }
+    UserService.updateStatus(id, input).then();
   };
-
   const navigate = useNavigate();
   const enableColumn = [
     {
@@ -30,7 +35,7 @@ const StaffDatabase = ({ rows, title, userColumns }) => {
               <Switch
                 initialValue={params.row.status === 2 ? true : false}
                 onChange={() => {
-                  onchange(params.row.id);
+                  onchange(params.row.id, params.row.status);
                 }}
               />
             </div>
@@ -39,38 +44,6 @@ const StaffDatabase = ({ rows, title, userColumns }) => {
       },
     },
   ];
-  // const actionColumn = [
-  //   {
-  //     field: "action",
-  //     headerName: "Xử lý",
-  //     headerAlign: "center",
-  //     width: 200,
-  //     renderCell: (params) => {
-  //       return (
-  //         <div className="cellAction">
-  //           <Link
-  //             to={`/users/${params.row.id}`}
-  //             style={{ textDecoration: "none" }}
-  //           >
-  //             <div className="viewButton">Xem</div>
-  //           </Link>
-  //           <div
-  //             className="updateButton"
-  //             onClick={() => handleDelete(params.row.id)}
-  //           >
-  //             Sửa
-  //           </div>
-  //           <div
-  //             className="deleteButton"
-  //             onClick={() => handleDelete(params.row.id)}
-  //           >
-  //             Xóa
-  //           </div>
-  //         </div>
-  //       );
-  //     },
-  //   },
-  // ];
   return (
     <div className="datatable h-[850px] ">
       <div className="flex justify-between mb-3">

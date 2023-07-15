@@ -19,7 +19,7 @@ export const productColumns = [
       return (
         <div className="cellWithImg">
           <img
-            className="cellLargeImg"
+            className="cellImgProduct"
             src={"https://" + params?.row.product_images[0]?.uri || logo}
             alt="avatar"
           />
@@ -145,7 +145,7 @@ export const userColumns = [
       return (
         <div className="cellWithImg">
           <img
-            className="cellImg"
+            className="cellImgAvatar"
             src={params.row.avatar ? "https://" + params.row.avatar : logo}
             alt="avatar"
           />
@@ -204,7 +204,7 @@ export const staffColumns = [
       return (
         <div className="cellWithImg">
           <img
-            className="cellImg"
+            className="cellImgAvatar"
             src={params.row.avatar ? "https://" + params.row.avatar : logo}
             alt="avatar"
           />
@@ -443,7 +443,7 @@ export const newColumns = [
         : logo;
       return (
         <div className="cellWithImg">
-          <img className="cellLargeImg" src={image} alt="avatar" />
+          <img className="cellImgNews" src={image} alt="avatar" />
         </div>
       );
     },

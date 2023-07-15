@@ -12,7 +12,7 @@ export const UserService = {
   updateStatus(id, input) {
     return axiosInstance.patch(
       configAPI.baseUrlApiAdmin + `/account/${id}/change-status`,
-      { params: input }
+      input
     );
   },
   getUser(id) {

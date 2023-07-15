@@ -13,6 +13,8 @@ const ListOrder = () => {
   const [dataFilter, setDataFilter] = useState();
   const [currentPageNumber, setCurrentPageNumber] = useState(1);
   const [pageCount, setPageCount] = useState(0);
+  const [totalCount, setTotalCount] = useState();
+
   const stt = useRef();
 
   const handlePageClick = (event) => {
@@ -32,9 +34,9 @@ const ListOrder = () => {
       };
       const input = { ...sort, ...dataFilter };
 
-      console.log(input);
       OrderService.getAllOrder(input).then((res) => {
         stt.current = res?.offset + 1;
+        setTotalCount(res.total_count);
         setData(() => {
           const onResult = res.data.map((item, index) => {
             if (stt.current > 10) {
@@ -75,26 +77,28 @@ const ListOrder = () => {
           onDataChange={handleDataChange}
         />
 
-        <ReactPaginate
-          className="pagination-item "
-          breakLabel="..."
-          nextLabel="►"
-          onPageChange={handlePageClick}
-          pageRangeDisplayed={5}
-          pageCount={pageCount}
-          previousLabel="◄"
-          renderOnZeroPageCount={null}
-          breakClassName={"page-item"}
-          breakLinkClassName={"page-link"}
-          containerClassName={"pagination"}
-          pageClassName={"page-item"}
-          pageLinkClassName={"page-link"}
-          previousClassName={"page-item"}
-          previousLinkClassName={"page-link"}
-          nextClassName={"page-item"}
-          nextLinkClassName={"page-link"}
-          activeClassName={"active"}
-        />
+        {totalCount > 10 && (
+          <ReactPaginate
+            className="pagination-item "
+            breakLabel="..."
+            nextLabel="►"
+            onPageChange={handlePageClick}
+            pageRangeDisplayed={5}
+            pageCount={pageCount}
+            previousLabel="◄"
+            renderOnZeroPageCount={null}
+            breakClassName={"page-item"}
+            breakLinkClassName={"page-link"}
+            containerClassName={"pagination"}
+            pageClassName={"page-item"}
+            pageLinkClassName={"page-link"}
+            previousClassName={"page-item"}
+            previousLinkClassName={"page-link"}
+            nextClassName={"page-item"}
+            nextLinkClassName={"page-link"}
+            activeClassName={"active"}
+          />
+        )}
       </div>
     </div>
   );
