@@ -4,6 +4,7 @@ import { UserService } from "../../services/user.service";
 import { Link } from "react-router-dom";
 import { OrderService } from "../../services/order.service";
 import swal2 from "sweetalert2";
+import GetAppIcon from "@mui/icons-material/GetApp";
 import { useState } from "react";
 
 const OrderDatatble = ({ rows, title, orderColumns, onDataChange }) => {
@@ -156,6 +157,42 @@ const OrderDatatble = ({ rows, title, orderColumns, onDataChange }) => {
             }
           }
         });
+  };
+
+  const handleExport = (e) => {
+    e.preventDefault();
+
+    const data = {
+      is_payment: null,
+      fullname: null,
+      phone_number: null,
+      status: null,
+      create_at_from: null,
+      create_at_to: null,
+    };
+    if (statusOption) {
+      data.is_payment = paymentOption;
+      data.fullname = fullName;
+      data.phone_number = phone;
+      data.status = Number(statusOption);
+      data.create_at_from = startDate;
+      data.create_at_to = endDate;
+    } else {
+      data.is_payment = paymentOption;
+      data.phone_number = phone;
+      data.fullname = fullName;
+      data.create_at_from = startDate;
+      data.create_at_to = endDate;
+    }
+    OrderService.exportOrder(data).then((res) => {
+      const url = window.URL.createObjectURL(new Blob([res.data]));
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = "Thong-ke-don-hang-baloshop.xlsx";
+      link.click();
+      window.URL.revokeObjectURL(url);
+      link.remove();
+    });
   };
 
   const actionColumn = [
@@ -408,8 +445,15 @@ const OrderDatatble = ({ rows, title, orderColumns, onDataChange }) => {
               </div>
             </div>
 
-            <div className="mt-10 flex justify-end">
-              <div className="flex  justify-center gap-x-6 ">
+            <div className="mt-10 flex justify-between">
+              <button
+                onClick={(e) => handleExport(e)}
+                className="rounded-md bg-orange-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-orange-600 "
+              >
+                <GetAppIcon className="icon" />
+                Xuất excel
+              </button>
+              <div className="flex justify-center gap-x-6 ">
                 <button
                   onClick={handleSubmit}
                   type="submit"

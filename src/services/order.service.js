@@ -43,4 +43,15 @@ export const OrderService = {
         return res.data;
       });
   },
+
+  exportOrder(data) {
+    return axiosInstance
+      .get(configApi.baseUrlApiAdmin + "/invoice/export", {
+        params: data,
+        responseType: "blob",
+      })
+      .then((res) => {
+        return res;
+      });
+  },
 };
