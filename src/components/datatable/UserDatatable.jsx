@@ -15,13 +15,11 @@ const UserDatatable = ({ rows, title, userColumns, onDataChange }) => {
         fullname: name,
         status: Number(statusOption),
       };
-      console.log("data oderdatable", data);
       onDataChange(data);
     } else {
       const data = {
         fullname: name,
       };
-      console.log("data oderdatable", data);
       onDataChange(data);
     }
   };
@@ -33,7 +31,6 @@ const UserDatatable = ({ rows, title, userColumns, onDataChange }) => {
       fullname: null,
       status: null,
     };
-    console.log("data oderdatable delete", data);
     onDataChange(data);
   };
 
@@ -73,7 +70,7 @@ const UserDatatable = ({ rows, title, userColumns, onDataChange }) => {
     },
   ];
   return (
-    <div className="datatable h-[900px]">
+    <div className="datatable" style={{ height: "600px", overflow: "auto" }}>
       <div className="flex justify-between mb-3">
         <div className="font-semibold text-[24px]">Quản lý {title}</div>
       </div>

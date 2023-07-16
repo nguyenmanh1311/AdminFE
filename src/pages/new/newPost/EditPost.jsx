@@ -47,10 +47,8 @@ const EditPost = () => {
       content: editorContent,
       file_upload_ids: arrId,
     };
-    console.log(payload);
     (async function () {
       const response = await newsService.putNews(payload, postId);
-      console.log(response);
       if (response.status_code === 200) {
         swal2.fire({
           title: "Lưu viết thành công!",

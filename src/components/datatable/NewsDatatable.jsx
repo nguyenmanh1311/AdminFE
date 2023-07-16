@@ -21,7 +21,7 @@ const NewsDatatable = ({ rows, title, newColumns, onDataChange }) => {
       created_at: createdDate,
       edited_at: editedDate,
     };
-    console.log("data oderdatable", data);
+
     onDataChange(data);
   };
 
@@ -35,7 +35,7 @@ const NewsDatatable = ({ rows, title, newColumns, onDataChange }) => {
       edited_at: null,
       created_at: null,
     };
-    console.log("data oderdatable delete", data);
+
     onDataChange(data);
   };
 

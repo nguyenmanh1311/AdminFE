@@ -8,10 +8,21 @@ import productService from "../../services/product.service";
 import brandService from "../../services/brand.service";
 import categoryService from "../../services/category.service";
 import Swal from "sweetalert2";
+import { useState } from "react";
 
-const Datatable = ({ rows, title, columns, type = "", reply = false }) => {
+const Datatable = ({
+  rows,
+  title,
+  columns,
+  type = "",
+  reply = false,
+  onDataChange,
+}) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [name, setName] = useState("");
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
 
   const idPro = useParams();
   const handleDelete = (id, repply) => {
@@ -96,6 +107,29 @@ const Datatable = ({ rows, title, columns, type = "", reply = false }) => {
     showModal(dispatch, repllyforId);
   };
 
+  const handleDeleteFilter = () => {
+    setName("");
+    setStartDate();
+    setEndDate();
+    const data = {
+      keyword: null,
+      create_at_from: null,
+      create_at_to: null,
+    };
+    onDataChange(data);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const data = {
+      keyword: name,
+      create_at_from: startDate,
+      create_at_to: endDate,
+    };
+    onDataChange(data);
+  };
+
   const actionColumn = [
     {
       field: "action",
@@ -163,7 +197,7 @@ const Datatable = ({ rows, title, columns, type = "", reply = false }) => {
     },
   ];
   return (
-    <div className="datatable h-[850px]">
+    <div className="datatable" style={{ height: "650px", overflow: "auto" }}>
       <div className="flex justify-between mb-3">
         <div className="font-semibold text-[24px]">Quản lý {title}</div>
 
@@ -176,7 +210,93 @@ const Datatable = ({ rows, title, columns, type = "", reply = false }) => {
           Thêm mới
         </div>
       </div>
-      {}
+      <form>
+        <div className="space-y-12 border-b border-gray-900/10 pb-12">
+          <div className="">
+            <h2 className="text-base font-semibold leading-7 text-gray-900">
+              Bộ lọc
+            </h2>
+
+            <div className="mt-2 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+              <div className="sm:col-span-2 sm:col-start-1">
+                <label
+                  htmlFor="name"
+                  className="block text-sm font-medium leading-6 text-gray-900"
+                >
+                  Tên {type === "brands" ? "thương hiệu" : "thể loại"}
+                </label>
+                <div className="mt-2">
+                  <input
+                    type="text"
+                    name="name"
+                    id="name"
+                    autoComplete="name"
+                    value={name}
+                    onChange={(e) => {
+                      setName(e.target.value);
+                    }}
+                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  />
+                </div>
+              </div>
+
+              <div className="sm:col-span-1">
+                <label
+                  htmlFor="form"
+                  className="block text-sm font-medium leading-6 text-gray-900"
+                >
+                  Ngày tạo từ
+                </label>
+                <div className="mt-2">
+                  <input
+                    id="form"
+                    type="date"
+                    value={startDate || ""}
+                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    onChange={(e) => setStartDate(e.target.value)}
+                  />
+                </div>
+              </div>
+              <div className="sm:col-span-1">
+                <label
+                  htmlFor="to"
+                  className="block text-sm font-medium leading-6 text-gray-900"
+                >
+                  Ngày tạo đến
+                </label>
+                <div className="mt-2">
+                  <input
+                    id="to"
+                    type="date"
+                    value={endDate || ""}
+                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    onChange={(e) => setEndDate(e.target.value)}
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-10 flex justify-end">
+              <div className="flex  justify-center gap-x-6 ">
+                <button
+                  onClick={handleSubmit}
+                  type="submit"
+                  className="rounded-md bg-teal-400 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-teal-600 "
+                >
+                  Lọc sản phẩm
+                </button>
+                <button
+                  type="button"
+                  className="rounded-md bg-red-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-700 "
+                  onClick={handleDeleteFilter}
+                >
+                  Xóa bộ lọc
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
       <DataGrid
         className="datagrid"
         rows={rows}

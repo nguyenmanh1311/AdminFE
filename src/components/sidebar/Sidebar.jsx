@@ -14,6 +14,7 @@ import logo from "../../assets/logo/baloshop-black.png";
 import { useContext } from "react";
 import { useDispatch } from "react-redux";
 import { AuthService } from "../../services/auth.service";
+import Swal from "sweetalert2";
 
 const Sidebar = () => {
   const dispat = useDispatch();
@@ -22,10 +23,23 @@ const Sidebar = () => {
   const { dispatch } = useContext(DarkModeContext);
 
   const logout = () => {
-    if (confirm("Bạn có muốn thoát không?")) {
-      AuthService.logout();
-      navigate("/login");
-    }
+    Swal.fire({
+      title: "Bạn có muốn đăng xuất ?",
+      showDenyButton: true,
+      confirmButtonText: "Có",
+      denyButtonText: "Không",
+      customClass: {
+        actions: "my-actions",
+        confirmButton: "order-2",
+        denyButton: "order-3",
+      },
+    }).then((result) => {
+      if (result.isConfirmed) {
+        AuthService.logout();
+        navigate("/login");
+      } else if (result.isDenied) {
+      }
+    });
   };
   return (
     <div className="sidebar">

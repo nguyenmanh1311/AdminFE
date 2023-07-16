@@ -25,7 +25,6 @@ const OrderDatatble = ({ rows, title, orderColumns, onDataChange }) => {
         create_at_from: startDate,
         create_at_to: endDate,
       };
-      console.log("data oderdatable", data);
       onDataChange(data);
     } else {
       const data = {
@@ -35,7 +34,6 @@ const OrderDatatble = ({ rows, title, orderColumns, onDataChange }) => {
         create_at_from: startDate,
         create_at_to: endDate,
       };
-      console.log("data oderdatable", data);
       onDataChange(data);
     }
   };
@@ -55,7 +53,7 @@ const OrderDatatble = ({ rows, title, orderColumns, onDataChange }) => {
       create_at_from: null,
       create_at_to: null,
     };
-    console.log("data oderdatable delete", data);
+
     onDataChange(data);
   };
 

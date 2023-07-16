@@ -27,7 +27,6 @@ const ProductDatatable = ({ rows, title, productColumns, onDataChange }) => {
       create_at_from: startDate,
       create_at_to: endDate,
     };
-    console.log("data oderdatable", data);
     onDataChange(data);
   };
 
@@ -69,7 +68,6 @@ const ProductDatatable = ({ rows, title, productColumns, onDataChange }) => {
       create_at_from: null,
       create_at_to: null,
     };
-    console.log("data oderdatable delete", data);
     onDataChange(data);
   };
 

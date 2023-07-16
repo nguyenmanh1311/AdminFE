@@ -326,7 +326,15 @@ export const brandColumns = [
     field: "description",
     renderHeader: (params) => <strong>Mô tả</strong>,
     headerAlign: "center",
-    flex: 6.8,
+    flex: 6,
+  },
+
+  {
+    field: "createdDate",
+    renderHeader: (params) => <strong>Ngày tạo</strong>,
+    headerAlign: "center",
+    align: "center",
+    flex: 1,
   },
 ];
 
@@ -498,6 +506,14 @@ export const categoryColumns = [
     field: "description",
     renderHeader: () => <strong>Mô tả</strong>,
     headerAlign: "center",
-    flex: 7,
+    flex: 6,
+  },
+
+  {
+    field: "createdDate",
+    renderHeader: (params) => <strong>Ngày tạo</strong>,
+    headerAlign: "center",
+    align: "center",
+    flex: 1,
   },
 ];
