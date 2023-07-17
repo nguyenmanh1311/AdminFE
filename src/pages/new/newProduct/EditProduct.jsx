@@ -62,6 +62,11 @@ const EditProduct = ({ inputs, name }) => {
     });
     setLoad(false);
     productService.getProductById(param.productId).then((res) => {
+      for (let i = 0; i < res.data.product_images.length; i++) {
+        setArrId((prev) => {
+          return [...prev, res.data.product_images[i]?.file_upload_id];
+        });
+      }
       setArrFile(res.data.product_images);
       const colorData = res.data.colors;
       for (let i = 0; i < colorId.length; i++) {
@@ -131,7 +136,7 @@ const EditProduct = ({ inputs, name }) => {
       };
       productService.updateProduct(param.productId, input).then((res) => {
         if (res.status_code === 200) {
-          swal2.fire("Thông báo", "Thêm sản phẩm thành công", "success");
+          swal2.fire("Thông báo", "Cập nhật sản phẩm thành công", "success");
           navigate("/products");
         }
       });
@@ -421,7 +426,11 @@ const EditProduct = ({ inputs, name }) => {
                   arrFile.map((item, index) => (
                     <img
                       key={index}
-                      src={"https://" + item?.uri}
+                      src={
+                        item?.uri === undefined
+                          ? URL.createObjectURL(item)
+                          : "https://" + item?.uri
+                      }
                       alt=""
                       onClick={() => {
                         swal2
@@ -434,7 +443,9 @@ const EditProduct = ({ inputs, name }) => {
                           .then((result) => {
                             if (result.isConfirmed) {
                               setArrId((prev) => {
-                                return prev.filter((e, i) => i !== index);
+                                return prev.filter(
+                                  (e, i) => e !== item.file_upload_id
+                                );
                               });
                               setArrFile((currentFile) => {
                                 return currentFile.filter((e) => e !== item);

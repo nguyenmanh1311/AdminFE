@@ -544,7 +544,6 @@ const NewProduct = ({ inputs, title }) => {
                             setArrFile((currentFile) => {
                               return currentFile.filter((e) => e !== item);
                             });
-                          } else if (result.isDenied) {
                           }
                         });
                     }}
