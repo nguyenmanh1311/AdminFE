@@ -9,7 +9,6 @@ import MonetizationOnOutlinedIcon from "@mui/icons-material/MonetizationOnOutlin
 const Widget = ({ type, amount = 100 }) => {
   let data;
 
-  //temporary
   switch (type) {
     case "user":
       data = {
@@ -22,6 +21,8 @@ const Widget = ({ type, amount = 100 }) => {
             style={{
               color: "crimson",
               backgroundColor: "rgba(255, 0, 0, 0.2)",
+              width: "30px",
+              height: "30px",
             }}
           />
         ),
@@ -38,6 +39,8 @@ const Widget = ({ type, amount = 100 }) => {
             style={{
               backgroundColor: "rgba(218, 165, 32, 0.2)",
               color: "goldenrod",
+              width: "30px",
+              height: "30px",
             }}
           />
         ),
@@ -54,6 +57,8 @@ const Widget = ({ type, amount = 100 }) => {
             style={{
               backgroundColor: "rgba(0, 128, 0, 0.2)",
               color: "green",
+              width: "30px",
+              height: "30px",
             }}
           />
         ),
@@ -69,6 +74,8 @@ const Widget = ({ type, amount = 100 }) => {
             style={{
               backgroundColor: "rgba(128, 0, 128, 0.2)",
               color: "purple",
+              width: "30px",
+              height: "30px",
             }}
           />
         ),
